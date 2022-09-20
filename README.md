@@ -2,6 +2,11 @@
 
 - 일시 : 매주 화, 목 22:00~03:00 (당분간 체력 기르기 위해 2시까지)
 - 방송한 5시간 내용은 3분으로 요약하여 유튜브에 올립니다.
+- 링크
+  - [사기쭈 깃허브](https://github.com/SAgiKPJH)
+  - [사기쭈(쭈코드) 저장소](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-)
+  - [트위치 주소](https://www.twitch.tv/juhyung1021/about)
+  - [유튜브 주소]()
 - 위 내용은 상황에 따라 바뀔 수 있지만 대체로 위와 같이 진행합니다.
 
 <br>
