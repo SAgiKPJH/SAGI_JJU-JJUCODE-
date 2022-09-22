@@ -15,7 +15,7 @@
 
 ## 진행 프로젝트
 
-- [ ] [⭐(09/21수 ~ )[프로젝트 1] 영상편집 도우미 (소리나는 부분만 잘르는 프로그래밍) with Python](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/Project/01%20%EC%98%81%EC%83%81%ED%8E%B8%EC%A7%91%20%EB%8F%84%EC%9A%B0%EB%AF%B8%20in%20python)
+- [ ] [⭐(09/21수 ~ )[프로젝트 1] 영상편집 도우미 (소리나는 부분만 자르는 프로그래밍) with Python](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/Project/01%20%EC%98%81%EC%83%81%ED%8E%B8%EC%A7%91%20%EB%8F%84%EC%9A%B0%EB%AF%B8%20in%20python)
 - [ ] 그림그리기 도우미
 - [ ] 유튜브 채널 꾸미기(그림그리기)
 
