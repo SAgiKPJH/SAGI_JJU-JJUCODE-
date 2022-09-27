@@ -18,12 +18,12 @@ B--2. 소리부분 추출-->B
 - [x] : 1. 환경 구성
   - [x] Python 환경 기본 구성
   - [x] 설치된 Python, pip VScode에 연결하기
-  - [x] OpenCV
+  - [x] VLC 미디어 재생기
 - [ ] : 2. 영상 받기
   - [x] Test 영상 선정
-  - [x] 영상 정보 획득
-  - [x] Test 영상 Python으로 출력
-  - [x] Python으로 영상 제어
+  - [ ] 영상 정보 획득
+  - [ ] Test 영상 Python으로 출력
+  - [ ] Python으로 영상 제어
   - [ ] Python으로 소리 출력
   - [ ] Python으로 소리 이미지화
   - [ ] Python으로 소리 실시간 이미지화
@@ -78,21 +78,24 @@ B--2. 소리부분 추출-->B
   - Terminal에 pip 명령어의 동작 여부를 확인한다.
 <br>
 
-### OpenCV
-<img src="https://user-images.githubusercontent.com/66783849/186481810-4badd25d-bb67-4d26-b6ef-c74ecba02e5c.png" width="19%">
+### VLC 미디어 재생기
+<img src="https://user-images.githubusercontent.com/66783849/192570998-90b017d4-ac4f-4bb1-8250-8cb800fbcacf.png" width="19%">
 
-- OpenCV(Open Source Computer Vision)은 실시간 컴퓨터 비전을 목적으로한 프로그래밍 라이브러리이다.
-- C++와 Python에서 연동 사용 가능하다.
-- pip3 install opencv-python를 통해 install 한다.
-- VScode 터미널을 통해 pip3 install opencv-python을 진행한다.
-- Python 코드에서 "import cv2"가 동작됨을 확인하다.
-
+- VLC 미디어 플레이어(VLC media player)는 비디오랜(VideoLAN) 프로젝트가 개발한 자유-오픈 소스 미디어 플레이어 소프트웨어이다.
+- VLC는 데스크톱 운영 체제, 그리고 안드로이드, iOS, iPadOS, 타이젠, 윈도우 10 모바일, 윈도우 폰 등 모바일 플랫폼용으로 내려받을 수 있다.
+- 비디오랜 소프트웨어는 1996년 학술 프로젝트의 하나로서 기원하였다.
+- [VLC 미디어 플레이어 사이트](https://www.videolan.org/vlc/)를 통해 VLC 미디어 플레이어를 다운 받는다.
+- "pip3 install python-vlc"를 통해 파이썬에 설치한다.
+- 다음 코드를 실행하여 문제가 없음을 확인한다.
+  ```python
+  import vlc
+  ```
 
 <br><br><br>
 
-## 2. 영상 받기
+## 2. 영상 제어
 
-- Python으로 영상을 받고 가공할 수 있다.
+- Python으로 영상을 제어할 수 있다.
 
 ### Test 영상 선정
 
@@ -108,272 +111,233 @@ B--2. 소리부분 추출-->B
 - Python으로 영상을 받아서 실행한다.
 - 코드를 다음과 같이 작성한다.
   ```python
-  import cv2
-
-  video = cv2.VideoCapture( '영상1.mp4' )
+  import vlc
+  import time
   
-  if video.isOpened():
-      fps = video.get(cv2.CAP_PROP_FPS)
-      f_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
-      f_width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
-      f_height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+  # vlc 미디어 플레이어 객체 생성하기
+  media_player = vlc.MediaPlayer()
   
-      print('fps:', fps)
-      print('f_count:', f_count)
-      print('f_width:', f_width)
-      print('f_height:', f_height)
-      print('Video_Length:', f_count / fps)
-  ```
-- 보다 축약하여 다음과 같이 구성한다.
-  ```python
-  import cv2
-
-  class videos():
-      def __init__(self, string):
-          self.video = cv2.VideoCapture( string )
-          self.name = string
-          self.fps = self.video.get(cv2.CAP_PROP_FPS)
-          self.f_count = self.video.get(cv2.CAP_PROP_FRAME_COUNT)
-          self.f_width = self.video.get(cv2.CAP_PROP_FRAME_WIDTH)
-          self.f_height = self.video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-
-      def __del__(self):
-          self.video.release()
-        
-      def ShowProperies(self):
-          print(self.name + ' 정보')
-          print('  fps:', self.fps)
-          print('  f_count:', self.f_count)
-          print('  f_width:', self.f_width)
-          print('  f_height:', self.f_height)
-          print('  Video_Length:', self.f_count / self.fps)
-
-      def Close(self):
-          self.video.release()
-  ```
-- 다음과 같이 결과를 확인한다.
-  ```python
-  video1 = videos('영상1.mp4')
-  video2 = videos('영상2.mp4')
-  video3 = videos('영상3.mp4')
+  # 재생할 뮤직비디오 파일을 vlc 모듈의 미디어로 변환.
+  media = vlc.Media("영상1.mp4")
   
-  video1.ShowPropeties()
+  # 읽어드린 미디어를 재생할 수 있도록 
+  # 미디어 플레이어 객체에 세팅 (재생 준비 상태)
+  media_player.set_media(media)
   
-  print(video1.name ," sec = ", video1.f_count / video1.fps)
-  print(video2.name ," sec = ", video2.f_count / video2.fps)
-  print(video3.name ," sec = ", video3.f_count / video3.fps)
-
-  video1.Close()
-  video2.Close()
-  video3.Close()
+  # start playing video
+  media_player.play()
   
-  del video1
-  del video2
-  del video3
+  # wait so the video can be played for 5 seconds
+  # irrespective for length of video
+  time.sleep(0.05)
+    
+  # 비디오 정보 출력
+  print("Frame Rate per Second(fps) : ")
+  print(media_player.get_fps())
+  print("Video Width x Height : ")
+  print(str(media_player.video_get_width())
+   + " x " +
+   str(media_player.video_get_height()) )
+  print("Audio Volume : ")
+  print(media_player.audio_get_volume())
+  print("Video_Length : ")
+  print(media_player.get_length()/1000)
+  
+  media_player.stop()
+  media_player.release()
   ```
 - 결과는 다음과 같다.
   ```bash
-  영상1.mp4 정보
-    fps: 29.877551020408163
-    f_count: 244.0
-    f_width: 1920.0
-    f_height: 1080.0
-    Video_Length: 8.166666666666666
-  영상1.mp4  sec =  8.166666666666666
-  영상2.mp4  sec =  77.36666666666666
-  영상3.mp4  sec =  8.7
+  Frame Rate per Second(fps) : 
+  29.87755012512207
+  Video Width x Height : 
+  1920 x 1080
+  Audio Volume : 
+  100
+  Video_Length : 
+  8.197
   ```
 
+<br>
+
+### Python-VLC로 영상 실행 제어
   
-<br><br>
-
-
-### Test 영상 Python으로 출력
-
-- 영상을 출력하기 위해서는 OpenCV에서 제공하는 기능을 활용한다.
-- 영상이 정확한 시간의 흐름에 따라 정확히 보여주기 위해서 다음 세가지 방법을 고른다.
-  - 1. FPS를 활용한 cv2.waitKey(fps)
-  - 2. Thread를 활용한 영상출력
-  - 3. Time 변수를 활용한 시간 동기화
-- 1번의 방법은 waitKey의 시간이 매번 정확하게 기다리지 않기 때문에 적합하지 않다.
+- VLC를 이용햐여 영상을 재생하고 정지 및 종료한다.
   ```python
-  import time
-  start = time.time()  # 시작 시간 저장
-  print(time.time()-start)
-  cv2.waitKey(100)
-  print(time.time()-start)
+  media_player = vlc.MediaPlayer()
+  media = vlc.Media("영상2.mp4")
+  media_player.set_media(media)
+  
+  # 영상 스케일 조정
+  media_player.video_set_scale(0.4)
+  time.sleep(1)
+  print(f"영상 스케일 : {media_player.video_get_scale}이다.")
+  
+  # 볼륨 조정
+  media_player.audio_set_volume(80)
+  time.sleep(1)
+  print(f"영상 볼륨 : {media_player.audio_get_volume}이다.")
+  
+  # 영상 1초 일지중지
+  media_player.pause()
+  time.sleep(1)
+  
+  # 영상 1초 재생
+  media_player.play()
+  time.sleep(1)
+  
+  # 영상 1초 중지
+  media_player.stop()
+  time.sleep(1)
+  
+  # 영상 다시 재생
+  media_player.play()
+  time.sleep(1)
+  
+  # 영상 위치 지정
+  media_player.set_position(0.3) # 30%
+  time.sleep(3)
+  print(f"  - 영상 재생시간: {media_player.get_time()}")
+  print(f"  - 영상 재생위치: {media_player.get_position()}")
+  print("\n")
+  
+  # 영상 배속
+  media_player.set_rate(1.5) # 1.5배
+  time.sleep(3)
+  print(f"  - 현재 재생 속도: {media_player.get_rate()}")
+  print("\n")
+  media_player.set_rate(1) # 1배
+  
+  
+  # 음소거
+  media_player.audio_toggle_mute()
+  time.sleep(1)
+  value = media_player.audio_get_mute()
+  print(f"  - 현재 음소거 상태: {value}")
+  print("\n")
+   
+  # 음소거 해제
+  media_player.audio_toggle_mute()
+  time.sleep(1)
+  value = media_player.audio_get_mute()
+  print(f"  - 현재 음소거 상태: {value}")
+  print("\n")
+   
+  # 전체화면 - 영상비율도 같이 바꿔줘야 합니다.
+  media_player.video_set_scale(2)
+  media_player.set_fullscreen(True)
+  time.sleep(1)
+  print("  - 현재 Full screen 상태(get_fullscreen): ", media_player.get_fullscreen())
+  print("\n")
+   
+  # 전체화면 해제 - 영상비율도 같이 바꿔줘야 합니다.
+  media_player.video_set_scale(0.4)
+  media_player.toggle_fullscreen()
+  time.sleep(1)
+  print("  - 현재 Full screen 상태(get_fullscreen): ", media_player.get_fullscreen())
+  print("\n")
+  
+  # 영상 해제
+  media_player.release()
   ```
-- 다음과 같이 결과가 나왔다.
-  ```bash
-  0.0
-  0.1119999885559082 # 정확한 100이 아니다.
-  ```
-- 마찬가지로 2번의 방법또한 정확한 시간을 제공해줄 지 의문이다.
-- 따라서 3번째 방법을 통해 정확한 시간을 받아와 그에 맞는 영상의 위치를 지정하여(동기화) 출력하는 방식을 선택한다.
+
+<br>
+
+### Python-VLC 영상 재생 표준
+
+- 영상이 종료되면 Release()되도록 구성한다.
   ```python
-  video1 = videos('영상1.mp4')
-  start = time.time()
+  # 영상 끝까지 재생 후 종료
+  media_player = vlc.MediaPlayer()
   
-  while video1.video.isOpened():
-      nowsec = time.time()-start
-      video1.video.set(cv2.CAP_PROP_POS_FRAMES, nowsec * video1.fps)
-      
-      ret, frame = video1.video.read()
+  # Event
+  def my_call_back(event):
+      print("콜백함수호출: 종료호출")
+      global status 
+      status = 1 
+  media_player.event_manager().event_attach(
+      vlc.EventType.MediaPlayerStopped, my_call_back)
   
-      if ret :
-          re_frame = cv2.resize(frame, (round(video1.f_width/4),round(video1.f_height/4)) )
-          cv2.imshow('VideoView', re_frame)
-          key = cv2.waitKey(10)
+  # Setting
+  media_player.set_media(vlc.Media("영상1.mp4"))
+  media_player.video_set_scale(0.2)
+  media_player.play()
   
-          if key == ord('q'):
-              break
+  # 자동 종료
+  status = 0
+  while True:
+      time.sleep(0.3)
+      if status == 1:
+          media_player.release()
       else:
-          break
-  
-  video1.video.set(cv2.CAP_PROP_POS_FRAMES, 0)
-  
-  video1.Close()
-  cv2.destroyAllWindows()
+          pass
   ```
-- 이것을 간편하게 다음과 같이 구성한다.
+
+### Python-VLC 소리 정보 시각화
+
+- 소리 정보 시각화를 위해서는 다음 코드를 수정하여 진행한다.
+- 옵션 중 `--effect-list=<string>`의 문자열값은 dummy, scope, spectrum, spectrometer, vuMeter 중에 하나의 값을 선택한다.
+- `--effect-fft-window` 옵션의 값은 hann, flattop, blackmanharris, kaiser 이 리스트 중 하나의 값을 선택한다.
   ```python
-  import cv2
-  import time
+  # media_player = vlc.MediaPlayer()
+
+  instance = vlc.Instance(
+      "--audio-visual=visual",
+      "--effect-list=spectrum",
+      "--effect-fft-window=flattop")
   
-  class videos():
-      
-      def __init__(self, string):
-          self.video = cv2.VideoCapture( string )
-          self.name = string
-          self.fps = self.video.get(cv2.CAP_PROP_FPS)
-          self.f_count = self.video.get(cv2.CAP_PROP_FRAME_COUNT)
-          self.f_width = self.video.get(cv2.CAP_PROP_FRAME_WIDTH)
-          self.f_height = self.video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-          self.sec = self.f_count / self.fps
-          self.nowrate = self.f_count / self.fps
-  
-      def __del__(self):
-          self.video.release()
-          
-      def ShowPropeties(self):
-          print(self.name + ' 정보')
-          print('  fps:', self.fps)
-          print('  f_count:', self.f_count)
-          print('  f_width:', self.f_width)
-          print('  f_height:', self.f_height)
-          print('  Video_Length:', self.sec)
-      
-  
-      def Close(self):
-          self.video.release()
-      
-      def Play(self, n = 0, string = 'VideoView'):
-          nowsec = n + time.time()-start
-          self.video.set(cv2.CAP_PROP_POS_FRAMES, nowsec * self.fps)
-          del nowsec
-           
-          while self.video.isOpened():
-              nowsec = n + time.time()-start
-              self.video.set(cv2.CAP_PROP_POS_FRAMES, nowsec * self.fps)
-  
-              ret, frame = self.video.read()
-  
-              if ret :
-                  re_frame = cv2.resize(frame, (round(self.f_width/2),round(self.f_height/2)) )
-                  cv2.imshow(string, re_frame)
-                  key = cv2.waitKey(1)
-  
-                  if key == ord('q'):
-                      break
-              else :
-                  break
-          self.video.set(cv2.CAP_PROP_POS_FRAMES, 0)
-          cv2.destroyAllWindows()
+  media_player = instance.media_player_new()
   ```
-- 다음과 같이 실행한다.
+- 다음과 같이 소리 시각화 코드를 구성한다.
   ```python
-  video1 = videos('영상1.mp4')
-  video1.Play()
+  # 소리의 시각화
+  instance = vlc.Instance(
+      "--audio-visual=visual",
+      "--effect-list=spectrum",
+      "--effect-fft-window=flattop")
+  media_player = instance.media_player_new()
+  
+  # 이벤트
+  def my_call_back(event):
+      print("콜백함수호출: 종료호출")
+      media_player.release()
+  media_player.event_manager().event_attach(
+      vlc.EventType.MediaPlayerStopped, my_call_back)
+  
+  # 영상 설정
+  media_player.set_media(vlc.Media("영상1.mp4"))
+  media_player.video_set_scale(0.2)
+  media_player.play()
   ```
-
-<br><br>
-
-### Python으로 영상 제어
-
-- 다음과 같이 시작점을 설정한다..
-  ```python
-  video1 = videos('영상1.mp4')
-  video1.Play(5) # 5s 부터~
-  ```
-- 일시정지 및 실행은 다음과 같이 구현한다.
-  ```python
-  #... class videos > def Play
-      if key == ord('q'):
-          break
-
-      if key == ord('s'):
-          print("Press s")
-          StopTime =  n + time.time()-start
-
-          keys = cv2.waitKey(0)
-          while(keys != ord('p')):
-              keys == cv2.waitKey(0)
-
-          print("Press p")
-          PlayTime =  n + time.time()-start
-          start += PlayTime - StopTime
-          del StopTime
-          del PlayTime
-
-  else :
-      break
-  ...
-  ```
-- <kbd>q</kbd> 키를 통해 영상을 종료한다.
-- <kbd>s</kbd> 키를 통해 영상을 일시정지 하고, <kbd>p</kbd> 키를 통해 영상을 재생한다.
+- 결과  
+  <img src="https://user-images.githubusercontent.com/66783849/192597600-bde11ec7-a014-4339-b488-e5ae3b714edb.png" width="70%">
 
 <br>
 
-<br>
+### Python-VLC 으로 소리 크기 획득
 
-### Python으로 소리 출력
+### 목표
+- [x] : 1. 환경 구성
+  - [x] Python 환경 기본 구성
+  - [x] 설치된 Python, pip VScode에 연결하기
+  - [x] VLC 미디어 재생기
+- [ ] : 2. 영상 제어
+  - [x] Test 영상 선정
+  - [x] 영상 정보 획득
+  - [x] Python-VLC로 영상 실행 제어
+  - [x] Python-VLC 소리 정보 시각화
+  - [ ] Python으로 소리 크기 획득
+  - [ ] 
+  - [ ] Python으로 소리 실시간 이미지화
+  - [ ] 최적화
+- [ ] : 3. 영상 편집
+  - [ ] 소리 일정부분 이상 감지
+  - [ ] 영상 자르기
+  - [ ] 최적화
+- [ ] : 4. 영상 출력
+  - [ ] 영상 내보내기
 
-<br>
-
-### Python으로 소리 이미지화
-
-<br>
-
-### Python으로 소리 실시간 이미지화
-
-<br>
-
-### 최적화
-
-<br>
-
-## 2. 영상 편집
-
-<br>
-
-### 소리 일정부분 이상 감지
-
-<br>
-
-### 영상 자르기
-
-<br>
-
-### 최적화
-
-<br>
-
-## 3. 영상 출력
-
-<br>
-
-### 영상 내보내기
-
+  
 
 ### 참조
 
@@ -382,3 +346,6 @@ B--2. 소리부분 추출-->B
 - [Python, VScode 연결](https://joy-notes.com/vscode-%ED%8C%8C%EC%9D%B4%EC%8D%AC-pip-%EC%84%A4%EC%B9%98-%EC%9C%88%EB%8F%84%EC%9A%B0%EC%9A%A92022%EB%85%84-%EA%B8%B0%EC%A4%80/)
 - [OpenCV VideoCapture, VideoProperty](https://wikidocs.net/28)
 - [Python OpenCV VideoCapture](https://scribblinganything.tistory.com/491)
+- [Python OpenCV And Audio Player ffpyplayer](https://dreamfuture.tistory.com/10)
+- [ffpyplayer](https://pypi.org/project/ffpyplayer/)
+- [python-VLC](https://scv-life.tistory.com/111?category=982165)
