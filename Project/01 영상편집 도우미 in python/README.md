@@ -19,13 +19,13 @@ B--2. 소리부분 추출-->B
   - [x] Python 환경 기본 구성
   - [x] 설치된 Python, pip VScode에 연결하기
   - [x] VLC 미디어 재생기
-- [ ] : 2. 영상 받기
+- [ ] : 2. 영상 제어
   - [x] Test 영상 선정
-  - [ ] 영상 정보 획득
-  - [ ] Test 영상 Python으로 출력
-  - [ ] Python으로 영상 제어
-  - [ ] Python으로 소리 출력
-  - [ ] Python으로 소리 이미지화
+  - [x] 영상 정보 획득
+  - [x] Python-VLC로 영상 실행 제어
+  - [x] Python-VLC 소리 정보 시각화
+  - [ ] Python으로 소리 크기 획득
+  - [ ] 
   - [ ] Python으로 소리 실시간 이미지화
   - [ ] 최적화
 - [ ] : 3. 영상 편집
