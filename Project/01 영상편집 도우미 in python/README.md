@@ -4,9 +4,13 @@
 
 # [프로젝트 1] 영상편집 도우미 in python
 
-## 목적
+## 동작 과정
 
 <img src="https://user-images.githubusercontent.com/66783849/193833081-881b77eb-cbea-4e02-a805-083e7699e786.png" width="80%">
+
+<br>
+
+## 목적
 - 영상편집을 할 때, 핵심부분만 따로 추출하는 프로그램을 만드는 목적
 
 ```mermaid
