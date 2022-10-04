@@ -6,7 +6,7 @@
 
 ## 동작 과정
 
-<img src="https://user-images.githubusercontent.com/66783849/193833081-881b77eb-cbea-4e02-a805-083e7699e786.png" width="80%">
+<img src="https://user-images.githubusercontent.com/66783849/193836128-56ef19bd-c711-46f6-99ee-5255ed431100.png" width="80%">
 
 <br>
 
