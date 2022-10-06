@@ -21,27 +21,30 @@ B_2 --3. 소리 영역 감지-->B_2 --4. 영역 자르기--> C["추출된 영상
 C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] --6. 영상 병합-->E["편집영상"]
 ```
 
-### 목표
-- [x] : 1. 환경 구성
+## 목표
+
+- [x] 0. 환경 구성
   - [x] Python 환경 기본 구성
   - [x] 설치된 Python, pip VScode에 연결하기
   - [x] VLC 미디어 재생기
-- [ ] : 2. 영상 제어
   - [x] Test 영상 선정
+- [x] 1. 영상 입력
   - [x] 영상 정보 획득
   - [x] Python-VLC로 영상 실행 제어
+  - [x] Python-VLC 영상 재생 표준
   - [x] Python-VLC 소리 정보 시각화
-  - [ ] Python으로 소리 크기 획득
-  - [ ] 
+- [ ] 2. 소리부분 추출
   - [ ] Python으로 소리 실시간 이미지화
-  - [ ] 최적화
-- [ ] : 3. 영상 편집
+- [ ] 3. 소리영역 감지
+  - [ ] Python으로 소리 크기 획득
   - [ ] 소리 일정부분 이상 감지
+- [ ] 4. 영역 자르기
   - [ ] 영상 자르기
-  - [ ] 최적화
-- [ ] : 4. 영상 출력
+- [ ] 5. 영상 추출 및 내보내기
   - [ ] 영상 내보내기
-
+- [ ] 6. 영상 병합 작업 및 내보내기
+  - [ ] 영상 내보내기
+  - [ ] 최적화
 
 ### 제작 기간
 - 09/20 (화) ~
@@ -54,7 +57,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 <br><br><br>
 
-## 1. 환경 구성
+## 0. 환경 구성
 
 ### Python 환경 기본 구성
 
@@ -98,21 +101,23 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   ```python
   import vlc
   ```
-
-<br><br><br>
-
-## 2. 영상 제어
-
-- Python으로 영상을 제어할 수 있다.
+<br>
 
 ### Test 영상 선정
+
+<img src="https://user-images.githubusercontent.com/66783849/193837616-6d2d25f6-a184-4b93-90ed-3a73054d6106.png">
 
 - 영상 3개 선정
   - 영상 1 : 8초짜리 영상
   - 영상 2 : 1분 17초짜리
   - 영상 3 : 8초 짜리
 
-<br><br>
+
+<br><br><br>
+
+## 1. 영상 입력
+
+- Python으로 영상을 제어할 수 있다.
 
 ### 영상 정보 획득
 
@@ -248,6 +253,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   # 영상 해제
   media_player.release()
   ```
+  <img src="https://user-images.githubusercontent.com/66783849/193841897-9c13b143-3933-4d29-8a1a-23e95ae8494b.png" width="60%">
 
 <br>
 
@@ -322,28 +328,18 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 <br>
 
-### Python-VLC 으로 소리 크기 획득
+## 2. 소리부분 추출 
 
-### 목표
-- [x] : 1. 환경 구성
-  - [x] Python 환경 기본 구성
-  - [x] 설치된 Python, pip VScode에 연결하기
-  - [x] VLC 미디어 재생기
-- [ ] : 2. 영상 제어
-  - [x] Test 영상 선정
-  - [x] 영상 정보 획득
-  - [x] Python-VLC로 영상 실행 제어
-  - [x] Python-VLC 소리 정보 시각화
-  - [ ] Python으로 소리 크기 획득
-  - [ ] 
-  - [ ] Python으로 소리 실시간 이미지화
-  - [ ] 최적화
-- [ ] : 3. 영상 편집
-  - [ ] 소리 일정부분 이상 감지
-  - [ ] 영상 자르기
-  - [ ] 최적화
-- [ ] : 4. 영상 출력
-  - [ ] 영상 내보내기
+- 소리 추출을 위해서, 소리 관련 python 라이브러리인 librosa를 사용한다.  
+  `pip install librosa`
+- librosa를 사용하기 위해서 기본적으로 ffmepg를 설치해야 한다.  
+  `pip install ffmpeg-python`
+
+### Python으로 소리부분 추출
+
+### Python으로 소리 실시간 이미지화
+
+### Python-VLC 으로 소리 크기 획득
 
   
 
@@ -357,3 +353,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 - [Python OpenCV And Audio Player ffpyplayer](https://dreamfuture.tistory.com/10)
 - [ffpyplayer](https://pypi.org/project/ffpyplayer/)
 - [python-VLC](https://scv-life.tistory.com/111?category=982165)
+- 소리 시각화
+  - [파이썬 오디오 라이브러리 Top 5종 (Python Audio Library )](https://richwind.co.kr/174)
+  - [librosa](https://hyunlee103.tistory.com/36)
+  - [librosa Update Error](https://develop247.tistory.com/35)
