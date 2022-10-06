@@ -34,6 +34,13 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] Python-VLC 영상 재생 표준
   - [x] Python-VLC 소리 정보 시각화
 - [ ] 2. 소리부분 추출
+  - [x] 소리부분 추출 최종 목적
+  - [x] 소리 파형 이미지화 방법
+  - [x] librosa를 통한 wav 파일 파형 시각화
+  - [ ] moviepy를 통한 mp4 > mp3 파일 변환
+  - [ ] pydub를 통한 mp3 > wav 파일 변환
+
+
   - [ ] Python으로 소리 실시간 이미지화
 - [ ] 3. 소리영역 감지
   - [ ] Python으로 소리 크기 획득
@@ -330,12 +337,110 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 ## 2. 소리부분 추출 
 
+### 소리부분 추출 최종 목적
+
+[![image](https://user-images.githubusercontent.com/66783849/194329336-88881e70-e5e2-4ccd-9b13-fd0c962c4295.png)](https://nachwon.github.io/faster-waveform/) (이미지 출처 : https://nachwon.github.io/faster-waveform/)
+- 최종적인 목적은, 소리의 크기를 시간대별로 획득 할 수 있어야 한다.
+- 이는 소리를 이미지화를 이룸으로써 위 문제도 해결할 수 있는 준비를 갖출 수 있다.
+- 이를 위해서 소리를 이미지화 할 수 있고, 제어를 할 수 있는 python 라이브러리를 찾아본다.
+
+<br>
+
+### 소리 파형 이미지화 방법
+
+- 찾아본 결과 librosa 라이브러리를 통해 wav 파일의 파형을 시각화 할 수 있다.
+- 이를 위해서 pydub를 통해 mp3를 wav 파일로 변환한다.
+- mp4 파일을 mp3로 변환하기 위해 moviepy 라이브러리를 사용한다.
+  ```mermaid
+  flowchart LR
+  A(("mp4"))--moviepy-->B(("mp3"))--pydub-->C(("wav"))--librosa-->D("파형 이미지 획득")
+  ```
+
+<br>
+
+### librosa를 통한 wav 파일 파형 시각화
+
+<img src="https://user-images.githubusercontent.com/66783849/194331548-49e7d65b-4b2c-4abd-872e-c57228ec1c15.png" width="250">  
+
 - 소리 추출을 위해서, 소리 관련 python 라이브러리인 librosa를 사용한다.  
   `pip install librosa`
 - librosa를 사용하기 위해서 기본적으로 ffmepg를 설치해야 한다.  
   `pip install ffmpeg-python`
+- 이후 다음과 같이 코드를 작성하여, 문제가 없는지를 확인한다.
+  ```python
+  import numpy as np
+  import librosa, librosa.display 
+  import matplotlib.pyplot as plt
+  ```
+- 문제가 없으면 다음 코드를 통해 이미지화한다.
+  ```python
+  filepath = "D:/test/영상1.wav"
+  
+  sig, sr = librosa.load(filepath, sr=22050)
+  
+  plt.figure(filepath)
+  librosa.display.waveshow(sig, sr, alpha=0.5)
+  plt.xlabel("Time (s)")
+  plt.ylabel("Amplitude")
+  plt.title("Waveform")
+  ```
+- 결과는 다음과 같다.  
+  <img src="https://user-images.githubusercontent.com/66783849/194332742-986e4352-1ad1-4797-a10e-f75ba8c56908.png" width="300">
+- 시간대 별로 소리크기를 확인할 수 있다.
 
-### Python으로 소리부분 추출
+<br>
+
+### moviepy를 통한 mp4 > mp3 파일 변환
+
+- wav 파일을 통해 파형 이미지를 획득할 수 있다.
+- mp4를 wav 파일로 변환하기 위한 라이브러리는 찾기 힘들다.
+- mp3를 wav 파일로 변환하는 pydub라는 라이브러리가 존재하기에, mp4를 mp3로 변환하는 라이브러리를 찾았다.
+- mp4를 mp3로 변환할땐, moviepy를 활용한다.
+  ```mermaid
+  flowchart LR
+  A(("mp4"))--moviepy-->B(("mp3"))--pydub-->C(("wav"))--librosa-->D("파형 이미지 획득")
+  ```
+- mp4 to mp3 변환을 위해서, python 라이브러리인 moviepy를 사용한다.
+- 다음 내용을 Terminal에 입력하여 moviepy를 설치한다.  
+  `pip install moviepy`
+- 이후 다음과 같이 코드를 작성하여, 문제가 없는지를 확인한다.
+  ```python
+  import moviepy.editor as mp
+  ```
+- 문제가 없으면 다음 코드를 통해 변환한다.
+- [📌주의] 반드시 파일 이름은 영문으로 작성한다.
+  ```python
+  clip = mp.VideoFileClip("movie.mp4")
+  clip.audio.write_audiofile("movie.mp3")
+  ```
+- 결과는 다음과 같다.  
+  <img src="https://user-images.githubusercontent.com/66783849/194336277-5de6fae8-f592-436e-9c31-39903b9491dc.png" width="300">
+- 직접 소리 파일을 재생하여, 문제가 없는지 확인한다.
+
+<br>
+
+### pydub를 통한 mp3 > wav 파일 변환
+
+- mp3 to wav 변환을 위해서, python 라이브러리인 pydub를 사용한다.
+- 다음 내용을 Terminal에 입력하여 pydub를 설치한다.  
+  `pip install pydub`
+- librosa를 사용하기 위해서 기본적으로 ffmepg를 설치해야 한다.  
+  `pip install ffmpeg-python`
+- 이후 다음과 같이 코드를 작성하여, 문제가 없는지를 확인한다.
+  ```python
+  import pydub                    # 생략 가능
+  from pydub import AudioSegment
+  import ffmpeg
+  ```
+- 문제가 없으면 다음 코드를 통해 변환한다.
+- [📌주의] 반드시 파일 이름은 영문으로 작성한다.
+  ```python
+  clip = mp.VideoFileClip("movie.mp4")
+  clip.audio.write_audiofile("movie.mp3")
+  ```
+- 결과는 다음과 같다.  
+  <img src="https://user-images.githubusercontent.com/66783849/194336277-5de6fae8-f592-436e-9c31-39903b9491dc.png" width="300">
+- 직접 소리 파일을 재생하여, 문제가 없는지 확인한다.
 
 ### Python으로 소리 실시간 이미지화
 
@@ -357,3 +462,5 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [파이썬 오디오 라이브러리 Top 5종 (Python Audio Library )](https://richwind.co.kr/174)
   - [librosa](https://hyunlee103.tistory.com/36)
   - [librosa Update Error](https://develop247.tistory.com/35)
+- mp4 to mp3
+  - [파이썬을 이용해 동영상에서 오디오 추출하기](https://codingnuri.com/extracting-audio-from-video-using-python/)
