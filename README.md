@@ -20,6 +20,7 @@
 
 - [ ] [⭐(09/21(수) ~ )[프로젝트 1] 영상편집 도우미 (소리나는 부분만 자르는 프로그래밍) with Python](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/Project/01%20%EC%98%81%EC%83%81%ED%8E%B8%EC%A7%91%20%EB%8F%84%EC%9A%B0%EB%AF%B8%20in%20python)
 - [ ] 💤(10/06(목)부터) 잠과 전면전, 10:00~03:00 5시간동안 졸지말고 집중하여 버텨라!
+  - [ ] (10/9(일))10분 마다 딴짓 한개 시도
 - [ ] (매일) [프로그래밍 뉴스](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/News)
 
 <br>
