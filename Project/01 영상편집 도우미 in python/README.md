@@ -37,7 +37,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] 소리부분 추출 최종 목적
   - [x] 소리 파형 이미지화 방법
   - [x] librosa를 통한 wav 파일 파형 시각화
-  - [ ] moviepy를 통한 mp4 > mp3 파일 변환
+  - [x] moviepy를 통한 mp4 > mp3 파일 변환
   - [ ] pydub를 통한 mp3 > wav 파일 변환
 
 
@@ -93,7 +93,8 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - 윈도우 > 고급 시스템 설정 보기 검색 후 실행 > 시스템 속성 창 > 환경 변수 > [UserName에 대한 사용자 변수]와 [시스템 변수]에 존재하는 path > Python 폴더위치 및 pip 폴더 위치를 등록한다.  
   <img src="https://user-images.githubusercontent.com/66783849/191776092-86e1c0a4-2aab-4ccb-b85b-73366a0541cc.png" width="70%">
 - pip가 정삭작동함을 확인한다.
-  - Terminal에 pip 명령어의 동작 여부를 확인한다.
+  - Terminal에 pip 명령어의 동작 여부를 확인한다.  
+  <img src="https://user-images.githubusercontent.com/66783849/194721385-2f614025-e7b6-4c05-87c9-689d578b681d.png" width="70%">
 <br>
 
 ### VLC 미디어 재생기
@@ -441,9 +442,22 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 - [‼FileNotFoundError 발생시]
   - 다른 환경에서 이상없이 작동하는지 확인한다.
   - [Colab에서는 무사히 작동한다]  
-  <img src="https://user-images.githubusercontent.com/66783849/194721125-3980b0fc-7520-4a13-98c4-87e85e53642d.png" width="70%">
+  <img src="https://user-images.githubusercontent.com/66783849/194721125-3980b0fc-7520-4a13-98c4-87e85e53642d.png" width="60%">
+  - ffmpeg를 설치하여 환경을 구성한다.
+  - [ffmpeg 설치 참고 출처](https://digital-play.tistory.com/104#google_vignette)
+    1. [ffmpeg](https://ffmpeg.org/) 사이트에서 Download를 진행한다.
+    2. 다운로드 된 압축파일을 c드라이브(메인드라이브)에 "ffmpeg"라는 폴더명 안에 푼다.
+    3. 윈도우의 "명령 프롬프트"를 관리자 권한으로실행한다.  
+       <img src="https://user-images.githubusercontent.com/66783849/194721930-cb3f04c4-3dd5-4c36-99fb-3275dc7ff0a2.png">
+    4. 다음 내용을 입력한다.
+       ```bash
+       setx /m PATH "C:\ffmpeg\bin;%PATH%"
+       ```
+    5. 컴퓨터 재시작 후 ffmpeg가 제대로 동작하는지 확인한다.
+       ```bash
+       ffmpeg -version
+       ```
 - 결과는 다음과 같다.  
-  <img src="https://user-images.githubusercontent.com/66783849/194336277-5de6fae8-f592-436e-9c31-39903b9491dc.png" width="300">
 - 직접 소리 파일을 재생하여, 문제가 없는지 확인한다.
 
 
