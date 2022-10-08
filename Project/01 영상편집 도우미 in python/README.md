@@ -482,3 +482,5 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [librosa Update Error](https://develop247.tistory.com/35)
 - mp4 to mp3
   - [파이썬을 이용해 동영상에서 오디오 추출하기](https://codingnuri.com/extracting-audio-from-video-using-python/)
+- ffmpeg
+  - [[파이썬 활용] ffmpeg 설치하기](https://digital-play.tistory.com/104#google_vignette)
