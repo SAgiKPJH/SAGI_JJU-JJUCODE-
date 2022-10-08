@@ -438,9 +438,14 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   clip = mp.VideoFileClip("movie.mp4")
   clip.audio.write_audiofile("movie.mp3")
   ```
+- [‼FileNotFoundError 발생시]
+  - 다른 환경에서 이상없이 작동하는지 확인한다.
+  - [Colab에서는 무사히 작동한다]  
+  <img src="https://user-images.githubusercontent.com/66783849/194721125-3980b0fc-7520-4a13-98c4-87e85e53642d.png" width="70%">
 - 결과는 다음과 같다.  
   <img src="https://user-images.githubusercontent.com/66783849/194336277-5de6fae8-f592-436e-9c31-39903b9491dc.png" width="300">
 - 직접 소리 파일을 재생하여, 문제가 없는지 확인한다.
+
 
 ### Python으로 소리 실시간 이미지화
 
