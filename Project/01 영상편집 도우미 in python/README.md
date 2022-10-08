@@ -441,7 +441,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 - [‼FileNotFoundError 발생시]
   - 다른 환경에서 이상없이 작동하는지 확인한다.
   - [Colab에서는 무사히 작동한다]  
-  <img src="https://user-images.githubusercontent.com/66783849/194721125-3980b0fc-7520-4a13-98c4-87e85e53642d.png" width="60%">  
+    <img src="https://user-images.githubusercontent.com/66783849/194721125-3980b0fc-7520-4a13-98c4-87e85e53642d.png" width="60%">  
   - ffmpeg를 설치하여 환경을 구성한다.
   - [ffmpeg 설치 참고 출처](https://digital-play.tistory.com/104#google_vignette)
     1. [ffmpeg](https://ffmpeg.org/) 사이트에서 Download를 진행한다.
