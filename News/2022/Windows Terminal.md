@@ -123,13 +123,23 @@
 
 <br>
 
-### Windows Terminal 보조 기능
+## Windows Terminal 보조 기능
 
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
+
+<br>
+
+### Nerd Font
+
 - [Nerd Font 설치, Oh My Posh 설치](https://learn.microsoft.com/ko-kr/windows/terminal/tutorials/custom-prompt-setup)
 - Nerd Font : 터미널에서 모든 문자 모양을 볼 수 있다.
   - [Nerd Font](https://www.nerdfonts.com/font-downloads) 다운로드한다.
   - Font 파일을 "C:\Windows\Fonts"에 붙여 넣는다.
+
+<br>
+
+### On My Posh
+
 - Oh My Posh 설치 : powershell를 통해 설치한다.
   - PowerShell에 다음과 같이 입력하여 설치한다.
   ```bash
@@ -176,10 +186,24 @@
   패키지 설치를 시작하는 중...
   설치 성공
   ```
+- 다음 [사이트](https://ohmyposh.dev/docs/themes)를 통해 원하는 OhMyPush 테마를 선택한다.
+- 선택한 테마의 json 파일을 별도로 저장한다.
+- 다음 명령어를 통해 json 파일을 적용한다.
+  ```bash
+  oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\paradox.omp.json" | Invoke-Expression
+  ```
+  ```bahs
+  oh-my-posh init pwsh --config "D:\Sagi_JJU D\코딩 프로젝트\2022\oh-my-posh-main\themes\quick-term.omp.json" | Invoke-Expression
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/194718853-7db148d9-e774-4336-8e22-7f2faa1d417a.png" >
 
 <br>
+
+
 <br>
 
 ### 참조
 
+- [Oh My Posh를 사용하여 PowerShell 또는 WSL에 대한 사용자 지정 프롬프트 설정](https://learn.microsoft.com/ko-kr/windows/terminal/tutorials/custom-prompt-setup)
 - [The new Windows Terminal | YouTube](https://www.youtube.com/watch?v=8gw0rXPMMPE)
+- [프롬프트 연결](https://ohmyposh.dev/docs/installation/prompt)
