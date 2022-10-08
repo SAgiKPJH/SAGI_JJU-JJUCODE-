@@ -21,6 +21,13 @@
 
 <br>
 
+## Windows Terminal 유용한 팁
+
+- <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + `마우스 스크롤` : Terminal 창의 배경 alpha 값을 조정한다. (투명도 조정)
+- <kbd>Ctrl</kbd> + `마우스 스크롤` : 폰트크기를 설정한다.
+
+<br>
+
 ## Windows Terminal 꾸미기
 
 <img src="https://user-images.githubusercontent.com/66783849/194593015-6a5ca30c-fd36-4cfb-8268-08251190adfd.png" width="70%">
@@ -131,6 +138,43 @@
   - 최신 업데이트가 있는지 여부는 다음 코드를 통해서 확인한다.
   ```bash
   winget upgrade oh-my-posh
+  ```
+- [‼ 입력 조건과 일치하는 패키지가 여러 개 있습니다. 입력을 구체화하십시오.] : 여러 패키지가 있을 때 발생하며, 이름대신 "장치 ID"에 있는 문자열을 사용하면 됩니다.
+  - 예) 다음과 같은 오류가 나타날 때
+  ```bash
+  > winget install oh-my-posh
+
+  입력 조건과 일치하는 패키지가 여러 개 있습니다. 입력을 구체화하십시오.
+  이름       장치 ID                 원본
+  ------------------------------------------
+  oh-my-posh XP8K0HKJFRXGCK          msstore
+  Oh My Posh JanDeDobbeleer.OhMyPosh winget
+  ```
+  - 다음과 같이 입력한다.
+  ```bash
+  winget install JanDeDobbeleer.OhMyPosh
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/194716248-6f47af03-580d-409f-bf57-77f19978b5af.png" width="90%">
+- 다음과 같이 결과가 나왔다.
+  ```bash
+  > winget install oh-my-posh
+
+  입력 조건과 일치하는 패키지가 여러 개 있습니다. 입력을 구체화하십시오.
+  이름       장치 ID                 원본
+  ------------------------------------------
+  oh-my-posh XP8K0HKJFRXGCK          msstore
+  Oh My Posh JanDeDobbeleer.OhMyPosh winget
+  
+  > winget install JanDeDobbeleer.OhMyPosh
+
+  찾음 Oh My Posh [JanDeDobbeleer.OhMyPosh] 버전 12.0.1
+  이 응용 프로그램의 라이선스는 그 소유자가 사용자에게 부여했습니다.
+  Microsoft는 타사 패키지에 대한 책임을 지지 않고 라이선스를 부여하지도 않습니다.
+  Downloading https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v12.0.1/install-amd64.exe
+    ██████████████████████████████  6.72 MB / 6.72 MB
+  설치 관리자 해시를 확인했습니다.
+  패키지 설치를 시작하는 중...
+  설치 성공
   ```
 
 <br>
