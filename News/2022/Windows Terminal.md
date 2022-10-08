@@ -23,6 +23,8 @@
 
 ## Windows Terminal 꾸미기
 
+<img src="https://user-images.githubusercontent.com/66783849/194593015-6a5ca30c-fd36-4cfb-8268-08251190adfd.png" width="70%">
+
 - Windows Terminal은 각 터미널 별로 Theme를 지정할 수 있다.
 - 색, 폰트종류 및 크기, 여백크기, 투명한 배경 모두 가능하다.
 - 이들을 쉽게 관리할 수있도록 Windows Terminal에서는 json 형식으로 theme를 저장한다.
@@ -30,6 +32,8 @@
 <br>
 
 ### Windows Terminal json Setting
+
+<img src="https://user-images.githubusercontent.com/66783849/194714772-cfc98e3e-ca35-4aa9-aa72-baffc5a6f982.png" width="70%">
 
 - json에 가종 속성에 Theme를 첨가함으로써 다양한 터미널 디자인을 이용해 본다.
 - Windows Terminal 설정 > 가장 아래 "json 파일 열기" 버튼 -> "setting.json"파일 을 통해 현재 파일 Theme를 관리한다.
@@ -103,10 +107,12 @@
 ### Windows Terminal json Key Setting
 
 - terminal 내의 json 파일을 중심삼고 각종 단축키를 제작할 수 있다.
-- 예) <kbd>Cntl</kbd>+<kbd></kbd>
+- 예) <kbd>Alt</kbd>+<kbd>K</kbd> : "clear"
   ```json
   { "command": {"action": "sendInput", "input": "clear\r"}, "keys": "alt+k", "name": "clear terminal" }
   ```
+- 다음과 같이 Theme가 추가됨을 확인할 수 있다.  
+<img src="https://user-images.githubusercontent.com/66783849/194714929-64612ddf-bf23-4daf-9ff3-72a08e0ed8b4.png" width="70%">
 
 <br>
 
@@ -117,6 +123,18 @@
 - Nerd Font : 터미널에서 모든 문자 모양을 볼 수 있다.
   - [Nerd Font](https://www.nerdfonts.com/font-downloads) 다운로드한다.
   - Font 파일을 "C:\Windows\Fonts"에 붙여 넣는다.
+- Oh My Posh 설치 : powershell를 통해 설치한다.
+  - PowerShell에 다음과 같이 입력하여 설치한다.
+  ```bash
+  winget install oh-my-posh
+  ```
+  - 최신 업데이트가 있는지 여부는 다음 코드를 통해서 확인한다.
+  ```bash
+  winget upgrade oh-my-posh
+  ```
+
+<br>
+<br>
 
 ### 참조
 
