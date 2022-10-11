@@ -33,14 +33,13 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] Python-VLC로 영상 실행 제어
   - [x] Python-VLC 영상 재생 표준
   - [x] Python-VLC 소리 정보 시각화
-- [ ] 2. 소리부분 추출
+- [x] 2. 소리부분 추출
   - [x] 소리부분 추출 최종 목적
   - [x] 소리 파형 이미지화 방법
   - [x] librosa를 통한 wav 파일 파형 시각화
   - [x] moviepy를 통한 mp4 > mp3 파일 변환
-  - [ ] pydub를 통한 mp3 > wav 파일 변환
-  - [ ] ---------------------
-  - [ ] Python으로 소리 실시간 이미지화
+  - [x] pydub를 통한 mp3 > wav 파일 변환
+  - [x] Python으로 소리 이미지 출력
 - [ ] 3. 소리영역 감지
   - [ ] Python으로 소리 크기 획득
   - [ ] 소리 일정부분 이상 감지
@@ -466,7 +465,47 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 <br>
 
-### Python으로 소리 실시간 이미지화
+### Python으로 소리 이미지 출력
+
+- moviepy, pydub, librosa를 활용하여 mp4 영상의 소리를 추출하여 크기를 시간대별 시각화한다.
+  ```python
+  InputFileName = "edit"
+
+  print("Start Converting mp4 to mp3...")
+  # mp4 to mp3
+  import moviepy.editor as mp
+  
+  clip = mp.VideoFileClip(InputFileName+".mp4")
+  clip.audio.write_audiofile(InputFileName+".mp3")
+  
+  print("Start Converting mp3 to wav...")
+  # mp3 to wav
+  import pydub
+  from pydub import AudioSegment
+  import ffmpeg
+  
+  audSeg = AudioSegment.from_mp3(InputFileName+".mp3")
+  audSeg.export(InputFileName+".wav", format="wav", bitrate=16)
+  
+  print("Start making Visualization wav...")
+  
+  # wav to Visualization
+  import numpy as np
+  import librosa, librosa.display 
+  import matplotlib.pyplot as plt
+  
+  filepath = InputFileName+".wav"
+  
+  sig, sr = librosa.load(filepath, sr=22050)
+  
+  plt.figure(filepath)
+  librosa.display.waveshow(sig, sr, alpha=0.5)
+  plt.xlabel("Time (s)")
+  plt.ylabel("Amplitude")
+  plt.title("Waveform")
+  ```
+- 결과는 다음과 같다.  
+  <img src="https://user-images.githubusercontent.com/66783849/195115662-f753e7a6-9c5b-4bbc-8e72-b76dc971093e.png" width="190">  
 
 <br>
 
