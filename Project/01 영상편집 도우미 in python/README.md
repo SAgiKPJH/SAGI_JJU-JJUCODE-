@@ -621,3 +621,9 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [ffmpeg 다운로드와 간단한 사용 방법](https://seogilang.tistory.com/1578)
 - plt
   - https://wikidocs.net/92071
+- matlab
+  - https://wikidocs.net/92071
+- python 문법
+  - [조건문 if else](https://wikidocs.net/57)
+  - [and or 연산](https://wikidocs.net/22211)
+  - [얕은 복사, 깊은 복사](https://blockdmask.tistory.com/576)
