@@ -444,10 +444,12 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
     <img src="https://user-images.githubusercontent.com/66783849/194721125-3980b0fc-7520-4a13-98c4-87e85e53642d.png" width="60%">  
   - ffmpeg를 설치하여 환경을 구성한다.
   - [ffmpeg 설치 참고 출처](https://digital-play.tistory.com/104#google_vignette)
-    1. [ffmpeg](https://ffmpeg.org/) 사이트에서 Download를 진행한다.
+    1. [ffmpeg](https://ffmpeg.org/) 사이트에서 Download를 진행한다.  
+       <img src="https://user-images.githubusercontent.com/66783849/195105487-57d6f676-1c5d-4d14-acdf-1cdc758b66d5.png" width="400">  
+       - ffmpeg 사이트 -> Download -> 아래 Window 마크 링크 -> Release 버전 압축파일(essentials 또는 Full버전)을 다운받는다.
     2. 다운로드 된 압축파일을 c드라이브(메인드라이브)에 "ffmpeg"라는 폴더명 안에 푼다.
     3. 윈도우의 "명령 프롬프트"를 관리자 권한으로실행한다.  
-       <img src="https://user-images.githubusercontent.com/66783849/194721930-cb3f04c4-3dd5-4c36-99fb-3275dc7ff0a2.png">  
+       <img src="https://user-images.githubusercontent.com/66783849/194721930-cb3f04c4-3dd5-4c36-99fb-3275dc7ff0a2.png"> 
     4. 다음 내용을 입력한다.
        ```bash
        setx /m PATH "C:\ffmpeg\bin;%PATH%"
@@ -456,11 +458,20 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
        ```bash
        ffmpeg -version
        ```
+       <img src="https://user-images.githubusercontent.com/66783849/195109101-0ed837dc-5042-4d03-b768-60172c6802ac.png" width="300">
 - 결과는 다음과 같다.  
-- 직접 소리 파일을 재생하여, 문제가 없는지 확인한다.
+  <img src="https://user-images.githubusercontent.com/66783849/195109974-14b06b4c-7d66-4136-a65d-8557c1ecadb9.png" width="300">  
+- 직접 소리 파일을 재생하여, 문제가 없는지 확인한다.  
+  <img src="https://user-images.githubusercontent.com/66783849/195110267-f02c8cf2-8ec6-485a-8729-0d2dfe7149a6.png" width="200">  
 
+<br>
 
 ### Python으로 소리 실시간 이미지화
+
+<br>
+
+### Python으로 소리 실시간 이미지화
+
 
 ### Python-VLC 으로 소리 크기 획득
 
@@ -484,3 +495,5 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [파이썬을 이용해 동영상에서 오디오 추출하기](https://codingnuri.com/extracting-audio-from-video-using-python/)
 - ffmpeg
   - [[파이썬 활용] ffmpeg 설치하기](https://digital-play.tistory.com/104#google_vignette)
+- ffmpeg
+  - [ffmpeg 다운로드와 간단한 사용 방법](https://seogilang.tistory.com/1578)
