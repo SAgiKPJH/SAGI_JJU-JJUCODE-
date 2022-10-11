@@ -509,6 +509,89 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 <br>
 
+## 3. 소리영역 감지
+
+- 원하는 소리 영역을 감지하기 위해 소리정보를 가공하여 다룬다.
+
+<br>
+
+### Python으로 소리 이미지 그래프 가공
+
+- librosa 함수를 사용할 때 각 설정들은 다음과 같은 뜻을 갖고 있다.
+  - param sr : 1초당 분해수이다.
+  - sig : 분해단위당 볼륨크기 np 배열
+  - sig.size : 총 분해단위 수
+  - sig.size / sr : 총 분해단위수 / 1초 분해단위수 = 영상 길이(초)
+  - 1/sr : 분해단위의 길이
+- 다음 함수를 통해 일반 출력을 진행한다.
+  ```python
+  import numpy as np
+  import librosa, librosa.display 
+  import matplotlib.pyplot as plt
+  
+  filepath = InputFileName+".wav"
+  dsecs = 2000
+  
+  sig, sr = librosa.load(filepath, sr=dsecs)
+  
+  plt.figure(filepath)
+  librosa.display.waveshow(sig, sr, alpha=0.5)
+  plt.xlabel("Time (s)")
+  plt.ylabel("Amplitude")
+  plt.title("Waveform")
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195143712-88859f77-a431-44e7-bd61-8c1a8e8f3d6f.png" width="250">
+- 다음 함수를 통해 절댓 값 출력을 진행한다.
+  ```python
+  import matplotlib.pyplot as plt
+
+  plt.plot(np.arange(0., sig.size/dsecs, 1/dsecs), abs(sig))
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195144477-91398340-8103-4803-bab9-69135c48e7f8.png" width="250">
+- 다음 코드를 통해 적분 값을 가져온다.
+  ```python
+  import matplotlib.pyplot as plt
+  import copy
+  
+  plt.plot(np.arange(0., sig.size/dsecs, 1/dsecs), abs(sig))
+  
+  sig1 = copy.deepcopy(sig)
+  
+  for i in range(1, sig.size) :
+      sig1[i]=0
+      sig1[i] = sig1[i-1] +  abs(sig[i])
+  
+  plt.plot(np.arange(0., sig.size/dsecs, 1/dsecs), sig1)
+  plt.show()
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195145067-6847f25f-379e-4ebc-a622-cd07957d4371.png" width="250">
+- 다음 코드를 통해 일정한 범위의 적분을 가져온다.
+  ```python
+  import matplotlib.pyplot as plt
+
+  plt.plot(np.arange(0., sig.size/dsecs, 1/dsecs), abs(sig))
+  
+  sig1 = copy.deepcopy(sig)
+  n = 1 # 측정 범위 1초
+  dd = dsecs * n
+  
+  for i in range(1, sig.size-1, 100) :
+      sig1[i] = 0
+      for j in range(0, int(dd)) :
+          a = 0
+          if i+(j-dd/2) < 0 or i+(j-dd/2) >= sig.size:
+              a = 0
+          else :
+              a = sig[int(i+(j-dd/2))]
+          sig1[i] += abs(a)
+  
+  plt.plot(np.arange(0., sig.size/dsecs, 1/dsecs), sig1/dd)
+  
+  plt.show()
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195145500-f14e7c33-3fda-4dfa-a771-3ac00875899d.png" width="250">
+
+
 ### Python으로 소리 실시간 이미지화
 
 
@@ -536,3 +619,5 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [[파이썬 활용] ffmpeg 설치하기](https://digital-play.tistory.com/104#google_vignette)
 - ffmpeg
   - [ffmpeg 다운로드와 간단한 사용 방법](https://seogilang.tistory.com/1578)
+- plt
+  - https://wikidocs.net/92071
