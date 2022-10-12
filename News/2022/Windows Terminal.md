@@ -1,3 +1,6 @@
+문서정보 : 2022.10.07.-09. 작성, 작성자 [@SAgiKPJH](https://github.com/SAgiKPJH)
+
+
 # Windows Terminal
 
 [![image](https://user-images.githubusercontent.com/66783849/194581819-164fa1df-8ff2-4855-8022-50fbc90818e9.png)](https://devblogs.microsoft.com/commandline/windows-terminal-1-0/)
