@@ -41,6 +41,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] pydub를 통한 mp3 > wav 파일 변환
   - [x] Python으로 소리 이미지 출력
 - [ ] 3. 소리영역 감지
+  - [ ] Python으로 소리 이미지 그래프 가공
   - [ ] Python으로 소리 크기 획득
   - [ ] 소리 일정부분 이상 감지
 - [ ] 4. 영역 자르기
@@ -506,6 +507,55 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   ```
 - 결과는 다음과 같다.  
   <img src="https://user-images.githubusercontent.com/66783849/195115662-f753e7a6-9c5b-4bbc-8e72-b76dc971093e.png" width="190">  
+- 8.2초 영상의 소리를 변환하는데, 7.5초가 경과하였다.
+- 이를 토대로 함수화를 진행한다.
+  ```python
+  # mp4 to mp3
+  import moviepy.editor as mp
+  # mp3 to wav
+  import pydub
+  from pydub import AudioSegment
+  import ffmpeg
+  # wav to Visualization
+  import numpy as np
+  import librosa, librosa.display 
+  import matplotlib.pyplot as plt
+  
+  def getSoundVolume(name, sr) : 
+      # mp4 to mp3
+      print("Start Converting mp4 to mp3...")
+      clip = mp.VideoFileClip(name+".mp4")
+      clip.audio.write_audiofile(name+".mp3")
+      # mp3 to wav
+      print("Start Converting mp3 to wav...")
+      audSeg = AudioSegment.from_mp3(name+".mp3")
+      audSeg.export(name+".wav", format="wav", bitrate=16)
+      # wav to Visualization
+      print("Start making Visualization wav...")
+      filepath = name+".wav"
+      sig, sr = librosa.load(filepath, sr)
+      return sig, sr
+  ```
+- 다음과 같이 활용한다.
+  ```python
+  InputFileName = "edit"
+  sig, sr = getSoundVolume(InputFileName, 2000)
+  ```
+- 8.2초 영상의 소리를 획득하는데, 1.3초가 경과하였다.
+- 다음과 같이 이미지 출력을 함수화 한다.
+  ```python
+  def drawSoundImage(sig, sr) :
+      librosa.display.waveshow(sig, sr, alpha=0.5)
+      plt.xlabel("Time (s)")
+      plt.ylabel("Amplitude")
+      plt.title("Waveform")
+  ```
+- 다음과 같이 활용한다.
+  ```python
+  drawSoundImage(sig, sr)
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195143712-88859f77-a431-44e7-bd61-8c1a8e8f3d6f.png" width="190">  
+
 
 <br>
 
@@ -575,7 +625,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   n = 1 # 측정 범위 1초
   dd = dsecs * n
   
-  for i in range(1, sig.size-1, 100) :
+  for i in range(1, sig.size-1, dd) :
       sig1[i] = 0
       for j in range(0, int(dd)) :
           a = 0
@@ -590,12 +640,79 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   plt.show()
   ```
   <img src="https://user-images.githubusercontent.com/66783849/195145500-f14e7c33-3fda-4dfa-a771-3ac00875899d.png" width="250">
+- 8.2초의 소리를 가공하여 0.6초 안에 정보를 획득했다.
+- 최종적으로 다음과 같은 코드로 작성한다.
+  ```python
+  import matplotlib.pyplot as plt
+  import copy
+  
+  plt.plot(np.arange(0., sig.size/dsecs, 1/dsecs), abs(sig))
+  
+  sig1 = np.zeros(1)
+  
+  n = 0.7 # 측정 범위 1초
+  dd = dsecs * n
+  
+  for i in range(1, sig.size-1, int(1000*n/4)) :
+      k = 0
+      for j in range(0, int(dd)) :
+          a = i+(j-dd/2)
+          if not(a < 0 or a >= sig.size):
+              k += abs( sig[int(a)] )
+      sig1 = np.insert(sig1, -1 , k )
+          
+  
+  plt.plot(np.arange(0., (sig.size+200)/sr, 1*((sig.size+200)/sr/sig1.size)), sig1/dd)
+  
+  plt.show()
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195611365-263a0e9c-1c28-4014-bee8-e04b86b9aecd.png" width="300">
+- 8.2초의 소리를 가공하여 0.5초 안에 정보를 획득했다.
+- 이 정보를 토대로 함수화를 진행한다.
+  ```python
+  def getSoundIntegral(sig, sr, dsec, n = 1) : 
+      sig1 = np.zeros(1)
+      dd = dsecs * n
+  
+      for i in range(1, sig.size-1, int(1000*n/4)) :
+          k = 0
+          for j in range(0, int(dd)) :
+              a = i+(j-dd/2)
+              if not(a < 0 or a >= sig.size):
+                  k += abs( sig[int(a)] )
+          sig1 = np.insert(sig1, -1 , k )
+      
+      return sig1, dd
+  ```
+- 다음과 같이 활용한다.
+  ```python
+  import matplotlib.pyplot as plt
+  import copy
+  
+  sig1, dd = getSoundIntegral(sig, sr, dsec, 1)
+  ```
+- 다음과 같이 이미지화를 구성한다.
+  ```python
+  def drawGraphVolume(sig1, dd) :
+      plt.plot(np.arange(0., sig1.size, 1), sig1/dd)
+      plt.show()
+  ```
+- 다음과 같이 활용한다.
+  ```python
+  drawGraphVolume(sig1, dd)
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195618099-1bd84a87-1c24-4a0e-a0a3-7600a196742a.png" width="250">
 
 
 ### Python으로 소리 실시간 이미지화
 
 
 ### Python-VLC 으로 소리 크기 획득
+
+## 결과
+- 8.2초 영상의 소리를 이미지 정보로 변환하는데, 7.5초가 경과하였다.
+  - 8.2초 영상의 소리를 획득하는데, 1.3초가 경과하였다.
+- 8.2초의 소리를 가공하여 0.6초 안에 정보를 획득했다.
 
   
 
