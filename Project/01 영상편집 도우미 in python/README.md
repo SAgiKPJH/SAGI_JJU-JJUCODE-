@@ -44,13 +44,18 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] Python으로 소리 이미지 그래프 제어
   - [x] Python 소리 이미지 그래프 가공
   - [x] Python 소리 영역 획득
-- [ ] 4. 영역 자르기
-  - [ ] 영상 자르기
-- [ ] 5. 영상 추출 및 내보내기
-  - [ ] 영상 내보내기
-- [ ] 6. 영상 병합 작업 및 내보내기
-  - [ ] 영상 내보내기
-  - [ ] 최적화
+- [x] 4. 영역 자르기
+  - [x] 자르는 시간 영역 획득
+  - [x] 시간 정보를 토대로 한 영상 자르기 및 내보내기
+- [x] 5. 영상 추출 성능
+  - [x] 영상 추출 성능 측정
+  - [x] 영상 추출 성능 검증
+  - [ ] Python으로 옮기기
+- [ ] 6. 영상 최종 출력
+  - [ ] VLC 활용한 영상 순서대로 출력
+  - [ ] VLC 영상 반복 및 삭제 기능 구현
+  - [ ] 영상 병합 및 내보내기
+  
 
 ### 제작 기간
 - 09/20 (화) ~
@@ -559,7 +564,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 <br>
 
-## 3. 소리영역 감지
+## 3. 소리영역 획득
 
 - 원하는 소리 영역을 감지하기 위해 소리정보를 가공하여 다룬다.
 
@@ -795,7 +800,120 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 ## 4. 영상 자르기
 
-- 소리 영역
+### 자르는 시간 영역 획득
+
+- 소리 영역 획득을 토해 얻은 소리의 시작 위치와 끝 위치를 시간 단위로 변환한다.
+  ```python
+  print("추출 Volume 길이 : ", sig1.size)
+  print("총 영상 길이", sig.size)
+  print("원본 영상 시간", sig.size/sr, "s")
+  print(sig.size/sr, "초 동안", sig1.size, "개의 정보가 존재")
+  print("초당", sig1.size/(sig.size/sr), "개가 존재해야 한다")
+  print(sig.size/sr, "x", sig1.size/(sig.size/sr), "=", (sig.size/sr)*(sig1.size/(sig.size/sr)) )
+  print(sig.size/sr, "초 동안", sig1.size, "개의 정보")
+  print("추출 Volume 길이 1당", (sig.size/sr)/sig1.size )
+  print("추출 Volume 길이 1이",sig1.size, "개 있으면")
+  print( (sig.size/sr)/sig1.size, "x", sig1.size, "=", sig1.size*(sig.size/sr)/sig1.size  )
+  ```
+- 결과는 다음과 같다.
+  ```bash
+  추출 Volume 길이 :  67
+  총 영상 길이 16400
+  원본 영상 시간 8.2 s
+  8.2 초 동안 67 개의 정보가 존재
+  초당 8.170731707317074 개가 존재해야 한다
+  8.2 x 8.170731707317074 = 67.0
+  8.2 초 동안 67 개의 정보
+  추출 Volume 길이 1당 0.12238805970149252
+  추출 Volume 길이 1이 67 개 있으면
+  0.12238805970149252 x 67 = 8.2
+  ```
+- 소리 영역 획득을 토해 얻은 소리의 시작 위치와 끝 위치를 시간 단위로 변환한다.
+  ```python
+  k *= (sig.size/sr)/sig1.size
+  k
+  ```
+- 결과는 다음과 같다.
+  ```bash
+  array([[0.12238806, 3.79402985],
+         [3.79402985, 5.50746269],
+         [6.60895522, 8.07761194]])
+  ```
+
+<br>
+
+### 시간 정보를 토대로 한 영상 자르기 및 내보내기
+
+- 영상을 자르기 위해서는 moviepy에서 제공하는 자르기 기능을 활용한다.
+- 다음을 통해 영상을 시작초-끝초를 지정하여 영상을 자른다.
+  ```python
+  from moviepy.video.io import ffmpeg_tools
+  
+  # 0초 부터 1.5초 까지 자른다. 
+  ffmpeg_tools.ffmpeg_extract_subclip(InputFileName+".mp4", 0, 1.5, targetname=InputFileName+"_Out.mp4")
+  ```
+- 다음을 통해 자르는 시간 영역 획득 결과를 대입하여 추출해본다.
+  ```python
+  from moviepy.video.io import ffmpeg_tools
+  
+  a = 0
+  for i in k :
+      a+=1
+      ffmpeg_tools.ffmpeg_extract_subclip(InputFileName+".mp4", i[0], i[1], targetname=InputFileName+str(a)+"_Out.mp4")
+  ```
+- 함수화를 진행한다.
+  ```python
+  def exportVideo(InPath, InputFileName, OutPath, k) :
+      a = 0
+      for i in k :
+          a+=1
+          ffmpeg_tools.ffmpeg_extract_subclip(InPath+InputFileName+".mp4", i[0], i[1], targetname=OutPath+InputFileName+str(a)+"_Out.mp4")
+  ```
+- 다음과 같이 활용한다.
+  ```python
+  exportVideo("", "edit", "OutPut/", k)
+  ```
+  <img src="https://user-images.githubusercontent.com/66783849/195652992-239064f2-bfac-43b7-9daf-cceca43bc517.png" width="250">
+
+## 5. 영상 추출 성능
+
+
+### 영상 추출 성능 측정
+
+#### 8.2초짜리 영상
+
+- 제작한 코드의 성능을 측정한다.
+1. import 과정 ------ (10.8s)
+2. 함수 등록 -------- ( 0.8s)
+3. 영상 wav 획득 ---- ( 3.8s) (8.2s 영상 input)
+4. drawSoundImage --- ( 1.1s)
+5. getSoundIntegral - ( 0.2s) (8.2s 영상 input)
+6. drawGraphVolume -- ( 0.4s)
+7. getRangeVolume --- ( 0.8s)
+8. exportVideo ------ ( 0.5s) (8.2s 영상, 3 영역)
+- 총 18.4s 소요
+- input 영상의 2.24배 소요
+
+#### 77s초짜리 영상
+
+- 제작한 코드의 성능을 측정한다.
+1. import 과정 ------ ( 7.2s)
+2. 함수 등록 -------- ( 0.1s)
+3. 영상 wav 획득 ---- ( 9.2s) (77s 영상 input)
+4. drawSoundImage --- ( 0.8s)
+5. getSoundIntegral - ( 1.1s) (77s 영상 input)
+6. drawGraphVolume -- ( 0.5s)
+7. getRangeVolume --- ( 0.8s)
+8. exportVideo ------ ( 1.3s) (8.2s 영상, 3 영역)
+- 총 21s 소요
+- input 영상의 0.27배 소요
+
+
+
+### 영상 추출 성능 검증
+
+- 검출 길이 1s, 3s 확인
+- 다른 영상도 소리 추출 잘 됨을 확인
 
 
 ## 결과
