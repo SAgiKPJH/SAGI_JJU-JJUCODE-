@@ -40,10 +40,10 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] moviepy를 통한 mp4 > mp3 파일 변환
   - [x] pydub를 통한 mp3 > wav 파일 변환
   - [x] Python으로 소리 이미지 출력
-- [ ] 3. 소리영역 감지
-  - [ ] Python으로 소리 이미지 그래프 가공
-  - [ ] Python으로 소리 크기 획득
-  - [ ] 소리 일정부분 이상 감지
+- [x] 3. 소리영역 획득
+  - [x] Python으로 소리 이미지 그래프 제어
+  - [x] Python 소리 이미지 그래프 가공
+  - [x] Python 소리 영역 획득
 - [ ] 4. 영역 자르기
   - [ ] 영상 자르기
 - [ ] 5. 영상 추출 및 내보내기
@@ -565,7 +565,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 <br>
 
-### Python으로 소리 이미지 그래프 가공
+### Python으로 소리 이미지 그래프 제어
 
 - librosa 함수를 사용할 때 각 설정들은 다음과 같은 뜻을 갖고 있다.
   - param sr : 1초당 분해수이다.
@@ -615,6 +615,11 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   plt.show()
   ```
   <img src="https://user-images.githubusercontent.com/66783849/195145067-6847f25f-379e-4ebc-a622-cd07957d4371.png" width="250">
+
+<br>
+
+### Python 소리 이미지 그래프 가공
+
 - 다음 코드를 통해 일정한 범위의 적분을 가져온다.
   ```python
   import matplotlib.pyplot as plt
@@ -704,10 +709,94 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   <img src="https://user-images.githubusercontent.com/66783849/195618099-1bd84a87-1c24-4a0e-a0a3-7600a196742a.png" width="250">
 
 
-### Python으로 소리 실시간 이미지화
+### Python 소리 영역 획득
+
+- 소리의 범위를 구하기 위해서는, 소리 검출 영역의 시작점과 끝점을 획득할 수 있어야 한다.
+- 소리 크기의 0.0025 부분을 기준으로 영역을 검출한다.
+  <img src="https://user-images.githubusercontent.com/66783849/195636012-933259de-6e74-4e97-9dc3-4a6bcab98746.png" width="250">
+- 우선 0.0025 이하인 영역을 검출한다.
+  ```python
+  for i in range(0, sig1.size) :
+      if( sig1[i]/dd < 0.0025 ) :
+          print(i)
+  ```
+- 결과는 다음과 같다.
+  ```bash
+  0 1 31 45 46 47 48 49 50 51 52 53 54 66
+  ```
+- 이러한 결과가 다음과 같이 출력 될 수 있도록 Python 코드를 구현한다.
+  ```bash
+  1 31
+  31 45
+  54 66
+  ```
+  ```python
+  a = 0
+  for i in range(0, sig1.size) :
+      if( sig1[i]/dd < 0.0025 ) :
+          if ( a + 1 == i ):
+              a = i
+          if ( i - a > 1 ) :
+              print(a, ", ", i)
+              a = i
+  ```
+- 결과는 다음과 같다.
+  ```bash
+  1 ,  31
+  31 ,  45
+  54 ,  66
+  ```
+- 이를 np.array 배열로 묶는다.
+  ```python
+  k = [np.zeros(2)]
+  
+  a = 0
+  for i in range(0, sig1.size) :
+      if( sig1[i]/dd < 0.0025 ) :
+          if ( a + 1 == i ):
+              a = i
+          if ( i - a > 1 ) :
+              k = np.append(k, [[a, i]], axis = 0)
+              a = i
+  k = np.delete(k, 0, axis=0)
+  k
+  ```
+- 결과는 다음과 같다.
+  ```bash
+  array([[ 1., 31.],
+         [31., 45.],
+         [54., 66.]])
+  ```
+- 이러한 결과를 함수화 한다.
+  ```python
+  def getRangeVolume(sig1, v = 0.0025) :
+      k = [np.zeros(2)]
+  
+      a = 0
+      for i in range(0, sig1.size) :
+          if( sig1[i]/dd < 0.0025 ) :
+              if ( a + 1 == i ):
+                  a = i
+              if ( i - a > 1 ) :
+                  k = np.append(k, [[a, i]], axis = 0)
+                  a = i
+      return np.delete(k, 0, axis=0)
+  ```
+- 다음과 같이 활용한다.
+  ```python
+  k = getRangeVolume(sig1, 0.0025)
+  ```
+
+<br>
 
 
-### Python-VLC 으로 소리 크기 획득
+
+<br><br>
+
+## 4. 영상 자르기
+
+- 소리 영역
+
 
 ## 결과
 - 8.2초 영상의 소리를 이미지 정보로 변환하는데, 7.5초가 경과하였다.
@@ -744,3 +833,6 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [조건문 if else](https://wikidocs.net/57)
   - [and or 연산](https://wikidocs.net/22211)
   - [얕은 복사, 깊은 복사](https://blockdmask.tistory.com/576)
+- np
+  - [넘파이(NumPy) 기초: 배열 및 벡터 계산](https://compmath.korea.ac.kr/appmath/NumpyBasics.html)
+  - [넘파이 알고 쓰자 - 넘파이의 원소 제거 및 추가(delete, add)](https://everyday-image-processing.tistory.com/93)
