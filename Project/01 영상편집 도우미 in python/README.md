@@ -50,11 +50,11 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 - [x] 5. 영상 추출 성능
   - [x] 영상 추출 성능 측정
   - [x] 영상 추출 성능 검증
-  - [ ] Python으로 옮기기
-- [ ] 6. 영상 최종 출력
-  - [ ] VLC 활용한 영상 순서대로 출력
-  - [ ] VLC 영상 반복 및 삭제 기능 구현
-  - [ ] 영상 병합 및 내보내기
+  - [x] 영상 추출 기능 개선
+- [x] 6. 영상 최종 출력
+  - [x] VLC 활용한 영상 순서대로 출력
+  - [x] VLC 영상 반복 및 삭제 기능 구현
+  - ~~[ ] 영상 병합 및 내보내기~~
   
 
 ### 제작 기간
@@ -787,6 +787,24 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
                   a = i
       return np.delete(k, 0, axis=0)
   ```
+- 코드를 다음과 같이 개선하였다.
+  ```python
+  def getRangeVolume(sig1, v = 0.0025) :
+      k = [np.zeros(2)]
+  
+      a = 0
+      b = False
+      for i in range(0, sig1.size) :
+          if( sig1[i]/dd < v ) :
+              if ( b ):
+                  k = np.append(k, [[a, i]], axis = 0)
+                  b = False
+          else : 
+              if ( not(b) ) :
+                  a = i
+                  b = True
+      return np.delete(k, 0, axis=0)
+  ```
 - 다음과 같이 활용한다.
   ```python
   k = getRangeVolume(sig1, 0.0025)
@@ -877,7 +895,6 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 ## 5. 영상 추출 성능
 
-
 ### 영상 추출 성능 측정
 
 #### 8.2초짜리 영상
@@ -928,6 +945,216 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 - 검출 길이 1s, 3s 확인
 - 다른 영상도 소리 추출 잘 됨을 확인
 
+<br>
+
+### 영상 추출 기능 개선
+
+- 영상추출을 시도하면서 생기는 문제 또는 개선점을 해결한다.
+- 이미 wav파일로 변환하여, mp4 -> wav 파일로 변환하는 작업을 생략할 때
+  ```python
+  def getWaveVolume(name, sr) :
+      # wav to Visualization
+      print("Start making Visualization wav...")
+      filepath = name+".wav"
+      sig, sr = librosa.load(filepath, sr)
+      return sig, sr
+  ```
+  ```python
+  # 이미 Wav 파일이 존재할 시
+  InputFileName = "video_14155_"
+  dsec = 2000
+  sig, sr = getWaveVolume(InputFileName, dsec)
+  ```
+- getGraphVolume() 함수의 일부분만 확대하여 볼 때
+  ```python
+  print(sig1.size)
+  cut = 42700  # sig1.size의 크기에 맞게끔 구성한다.
+  plt.plot(np.arange(0., sig1.size-cut, 1), sig1[0:-cut]/dd)
+  plt.show()
+  ```
+- getRangeVolume() 코드를 다음과 같이 개선하였다.
+  ```python
+  def getRangeVolume(sig1, v = 0.0025) :
+      k = [np.zeros(2)]
+  
+      a = 0
+      b = False
+      for i in range(0, sig1.size) :
+          if( sig1[i]/dd < v ) :
+              if ( b ):
+                  k = np.append(k, [[a, i]], axis = 0)
+                  b = False
+          else : 
+              if ( not(b) ) :
+                  a = i
+                  b = True
+      return np.delete(k, 0, axis=0)
+  ```
+
+<br><br>
+
+
+## 6. 영상 최종 출력
+
+- 최종 추출된 영상을 빠르게 순서대로 확인하고, 쉽게 삭제 저장여부를 선택할 수 있도록 한다.
+- 필요하면 병합을 할 수 있도록 한다.
+
+### VLC 활용한 영상 순서대로 출력
+
+- 추출된 영상을 순서대로 출력하는 코드를 짜본다.
+  ```python
+  import vlc
+  import time
+  ```
+  ```python
+  InputPath = "OutPut/"
+  InputFileName = "video_14155_"
+  a = 1
+  
+  # 영상 끝까지 재생 후 종료
+  media_player = vlc.MediaPlayer()
+  
+  media_player.event_manager().event_attach(
+      vlc.EventType.MediaPlayerStopped, my_call_back)
+  
+  # Event
+  def my_call_back(event):
+      print("콜백함수호출: 종료호출")
+      global status 
+      status = 1 
+  
+  
+  while(a<785) : 
+  
+      # Setting
+      media_player.set_media(
+          vlc.Media(
+              InputPath+InputFileName+str(a)+"_Out.mp4"
+          )
+      )
+      media_player.video_set_scale(0.8)
+      media_player.play()
+  
+      # 자동 종료
+      status = 0
+      while (status == 0):
+          time.sleep(0.3)
+          if status == 1:
+              media_player.stop()
+              a+=1
+              print(a)
+          else:
+              pass
+  ```
+
+<br>
+
+### VLC 영상 반복 및 삭제 기능 구현
+
+- 영상 반복 재생 또는 영상 삭제 기능을 키보드를 통해 쉽게 제어할 수 있도록 한다.
+- 키보드 입력을 받기 위해서 다음 라이브러리를 활용한다.
+  ```bash
+  pip install keyboard
+  ```
+  ```python
+  import keyboard
+
+  while True:
+      if keyboard.is_pressed("1"):
+          print("hello")
+          break
+  ```
+- R 버튼(다시 재생)과 D 버튼(삭제), N 버튼(다음 영상), P 버튼(이전 영상) 입력받을 수 있도록 구현한다.
+  ```python
+  while True:
+      if keyboard.is_pressed("r"):
+          print("replay")
+          break
+      if keyboard.is_pressed("d"):
+          print("delete")
+          break
+      if keyboard.is_pressed("n"):
+          print("next Video")
+          break
+      if keyboard.is_pressed("p"):
+          print("prev Video")
+          break
+  ```
+- 영상을 삭제하기 위해서 다음과 같이 활용한다.
+  ```python
+  InputPath = "OutPut/"
+  InputFileName = "video_14155_"
+  a = 784
+  os.remove(InputPath+InputFileName+str(a)+"_Out_test.mp4")
+  ```
+- 이를 종합하여 VLC 영상 간편 추출 도우미를 구성한다.
+  ```python
+  InputPath = "OutPut/"
+  InputFileName = "video_14155_"
+  a = 1
+  
+  # 영상 끝까지 재생 후 종료
+  media_player = vlc.MediaPlayer()
+  
+  # Event
+  def my_call_back(event):
+      print("콜백함수호출: 종료호출")
+      global status 
+      status = 1 
+  
+  media_player.event_manager().event_attach(
+      vlc.EventType.MediaPlayerStopped, my_call_back)
+  
+  while(a<785) : 
+  
+      # Setting
+      media_player.set_media(
+          vlc.Media(
+              InputPath+InputFileName+str(a)+"_Out.mp4"
+          )
+      )
+      media_player.video_set_scale(0.8)
+      media_player.play()
+  
+      # 자동 종료
+      status = 0
+      while (status == 0):
+          time.sleep(0.3)
+          if status == 1:
+              media_player.stop()
+              while True:
+                  if keyboard.is_pressed("r"):
+                      print("replay : ", a)
+                      break
+                  if keyboard.is_pressed("d"):
+                      print("delete : ", a)
+                      a += 1
+                      media_player.set_media(
+                          vlc.Media(
+                              InputPath+InputFileName+str(a)+"_Out.mp4"
+                          )
+                      )
+                      os.remove(InputPath+InputFileName+str(a-1)+"_Out.mp4")
+                      print("next : ", a)
+                      break
+                  if keyboard.is_pressed("n"):
+                      a += 1
+                      print("next : ", a)
+                      break
+                  if keyboard.is_pressed("p"):
+                      a -= 1
+                      print("prev : ", a)
+                      break
+          else:
+              pass
+  ```
+
+
+<br>
+
+<br><br>
+
+
 
 ## 결과
 - 8.2초 영상의 소리를 이미지 정보로 변환하는데, 7.5초가 경과하였다.
@@ -967,3 +1194,5 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 - np
   - [넘파이(NumPy) 기초: 배열 및 벡터 계산](https://compmath.korea.ac.kr/appmath/NumpyBasics.html)
   - [넘파이 알고 쓰자 - 넘파이의 원소 제거 및 추가(delete, add)](https://everyday-image-processing.tistory.com/93)
+- 파일 삭제
+  - [Python 파일 및 디렉토리 삭제하는 방법](https://webisfree.com/2018-03-16/python-%ED%8C%8C%EC%9D%BC-%EB%B0%8F-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EC%82%AD%EC%A0%9C%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95)
