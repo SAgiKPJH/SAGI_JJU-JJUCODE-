@@ -1,4 +1,4 @@
-문서정보 : 2022.09.20.~ 작성, 작성자 [@SAgiKPJH](https://github.com/SAgiKPJH)
+문서정보 : 2022.09.20.~ 10.19. 작성, 작성자 [@SAgiKPJH](https://github.com/SAgiKPJH)
 
 <br>
 
@@ -1148,7 +1148,72 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
           else:
               pass
   ```
-
+- 다음을 통해 볼륨 크기를 임의로 조정하여 구성한다.
+  ```python
+  InputPath = "OutPut/"
+  InputFileName = "video_14155_"
+  a = 5
+  
+  # 영상 끝까지 재생 후 종료
+  media_player = vlc.MediaPlayer()
+  
+  # Event
+  def my_call_back(event):
+      print("콜백함수호출: 종료호출")
+      global status 
+      status = 1 
+  
+  media_player.event_manager().event_attach(
+      vlc.EventType.MediaPlayerStopped, my_call_back)
+  
+  while(a<785) : 
+  
+      media_player = vlc.MediaPlayer() # 볼륨 크기 매번세팅을 위한 초기화
+      media_player.event_manager().event_attach(
+          vlc.EventType.MediaPlayerStopped, my_call_back)
+  
+      # Setting
+      media_player.set_media(
+          vlc.Media(
+              InputPath+InputFileName+str(a)+"_Out.mp4"
+          )
+      )
+      media_player.audio_set_volume(400)
+      media_player.video_set_scale(0.8)
+      media_player.play()
+      
+      # 자동 종료
+      status = 0
+      while (status == 0):
+          time.sleep(0.3)
+          if status == 1:
+              media_player.stop()
+              while True:
+                  if keyboard.is_pressed("r"):
+                      print("replay : ", a)
+                      break
+                  if keyboard.is_pressed("d"):
+                      print("delete : ", a)
+                      a += 1
+                      media_player.set_media(
+                          vlc.Media(
+                              InputPath+InputFileName+str(a)+"_Out.mp4"
+                          )
+                      )
+                      os.remove(InputPath+InputFileName+str(a-1)+"_Out.mp4")
+                      print("next : ", a)
+                      break
+                  if keyboard.is_pressed("n"):
+                      a += 1
+                      print("next : ", a)
+                      break
+                  if keyboard.is_pressed("p"):
+                      a -= 1
+                      print("prev : ", a)
+                      break
+          else:
+              pass
+  ```
 
 <br>
 
