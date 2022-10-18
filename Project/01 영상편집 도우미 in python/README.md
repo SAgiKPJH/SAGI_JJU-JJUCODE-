@@ -1323,26 +1323,40 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   dsec = 2000
   sig, sr = getSoundVolume(InputFileName, dsec)
   ```
+  ```bash
+  Start Converting mp4 to mp3...
+  MoviePy - Writing audio in video_14155_.mp3
+                                                                            
+  MoviePy - Done.
+  Start Converting mp3 to wav...
+  Start making Visualization wav...
+  ```
   ```python
   # 이미 Wav 파일이 존재할 시
   InputFileName = "video_14155_"
   dsec = 2000
   sig, sr = getWaveVolume(InputFileName, dsec)
   ```
+  ```bash
+  Start making Visualization wav...
+  ```
   ```python
   drawSoundImage(sig, sr)
   ```
+  <img src="https://user-images.githubusercontent.com/66783849/196506980-248a6343-35e5-45f5-8990-df3af30abf40.png" width="250">
   ```python
   sig1, dd = getSoundIntegral(sig, sr, dsec, 5)
   ```
   ```python
   drawGraphVolume(sig1, dd)
   ```
+  <img src="https://user-images.githubusercontent.com/66783849/196507110-d92f263e-666c-470f-b881-392ed75a3124.png" width="250">
   ```python
   print(sig1.size)
   plt.plot(np.arange(0., sig1.size-42700, 1), sig1[0:-42700]/dd)
   plt.show()
   ```
+  <img src="https://user-images.githubusercontent.com/66783849/196507189-786a6220-b1d6-4b46-af85-2c8d327ddaa9.png" width="250">
   ```python
   k = getRangeVolume(sig1, 0.001)
 
@@ -1350,8 +1364,33 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   print(k)
   print("k.size = ", k.size)
   ```
+  ```bash
+  Output exceeds the size limit. Open the full output data in a text editor
+  [[1.49989610e+01 2.31233982e+01]
+   [2.68731385e+01 3.49975757e+01]
+   [3.62474891e+01 4.74967098e+01]
+   [4.93715800e+01 4.99965367e+01]
+   [5.68710605e+01 5.93708873e+01]
+   [6.24956708e+01 7.18700215e+01]
+   ...
+   [1.62732477e+04 1.62738727e+04]
+   [1.62782474e+04 1.62794973e+04]
+   [1.62813722e+04 1.62826221e+04]]
+  k.size =  922
+  ```
   ```python
   exportVideo("", InputFileName, "OutPut/", k)
+  ```
+  ```bash
+  Output exceeds the size limit. Open the full output data in a text editor
+  Moviepy - Running:
+  >>> "+ " ".join(cmd)
+  Moviepy - Command successful
+  ...
+  Moviepy - Command successful
+  Moviepy - Running:
+  >>> "+ " ".join(cmd)
+  Moviepy - Command successful
   ```
   ```python
   import vlc
@@ -1423,6 +1462,25 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
           else:
               pass
   ```
+  ```bash
+  Output exceeds the size limit. Open the full output data in a text editor
+  콜백함수호출: 종료호출
+  콜백함수호출: 종료호출
+  delete :  1
+  next :  2
+  콜백함수호출: 종료호출
+  콜백함수호출: 종료호출
+  next :  3
+  콜백함수호출: 종료호출
+  콜백함수호출: 종료호출
+  next :  4
+  ...
+  콜백함수호출: 종료호출
+  next :  464
+  콜백함수호출: 종료호출
+  콜백함수호출: 종료호출
+  ```
+
 
 <br><br>
 
