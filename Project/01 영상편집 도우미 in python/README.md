@@ -55,10 +55,11 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   - [x] VLC 활용한 영상 순서대로 출력
   - [x] VLC 영상 반복 및 삭제 기능 구현
   - ~~[ ] 영상 병합 및 내보내기~~
-  
+- [x] 결과
+- [x] 참조
 
 ### 제작 기간
-- 09/20 (화) ~
+- 09/20 (화) ~ 10/19(수)
 
 ### 제작자
 [@SAgiKPJH](https://github.com/SAgiKPJH)
@@ -1222,13 +1223,210 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 
 
 ## 결과
-- 8.2초 영상의 소리를 이미지 정보로 변환하는데, 7.5초가 경과하였다.
-  - 8.2초 영상의 소리를 획득하는데, 1.3초가 경과하였다.
-- 8.2초의 소리를 가공하여 0.6초 안에 정보를 획득했다.
 
+- 영상 추출 시간 결과
+  - 8.2초짜리 영상 -> 총 18.4s 소요 (input 영상의 2.24배 소요)
+  - 77s초짜리 영상 -> 총 21s 소요 (input 영상의 0.27배 소요)
+  - 14155s초짜리 영상-> 총 1193.5s 소요 (input 영상의 0.084배 소요)
+- 영상 추출 및 영상 추출 도우미를 통해 추출된 영상을 쉽게 얻고 확인하였다.
+- 5시간 짜리의 영상을 30분 정도 소요하여 1차 추출 완료하였다.
+- 다음은 완성된 코드를 모아놓았다.
+  ```python
+  # mp4 to mp3
+  import moviepy.editor as mp
+  # mp3 to wav
+  import pydub
+  from pydub import AudioSegment
+  import ffmpeg
+  # wav to Visualization
+  import numpy as np
+  import librosa, librosa.display 
+  import matplotlib.pyplot as plt
   
+  import matplotlib.pyplot as plt
+  import copy
+  
+  from moviepy.video.io import ffmpeg_tools
+  ```
+  ```python
+  def getSoundVolume(name, sr) : 
+      # mp4 to mp3
+      print("Start Converting mp4 to mp3...")
+      clip = mp.VideoFileClip(name+".mp4")
+      clip.audio.write_audiofile(name+".mp3")
+      # mp3 to wav
+      print("Start Converting mp3 to wav...")
+      audSeg = AudioSegment.from_mp3(name+".mp3")
+      audSeg.export(name+".wav", format="wav", bitrate=16)
+      # wav to Visualization
+      print("Start making Visualization wav...")
+      filepath = name+".wav"
+      sig, sr = librosa.load(filepath, sr)
+      return sig, sr
+  
+  def getWaveVolume(name, sr) :
+      # wav to Visualization
+      print("Start making Visualization wav...")
+      filepath = name+".wav"
+      sig, sr = librosa.load(filepath, sr)
+      return sig, sr
+  
+  def drawSoundImage(sig, sr) :
+      librosa.display.waveshow(sig, sr, alpha=0.5)
+      plt.xlabel("Time (s)")
+      plt.ylabel("Amplitude")
+      plt.title("Waveform")
+  
+  def getSoundIntegral(sig, sr, dsec, n = 1) : 
+      sig1 = np.zeros(1)
+      dd = dsec * n
+  
+      for i in range(1, sig.size-1, int(1000*n/4)) :
+          k = 0
+          for j in range(0, int(dd)) :
+              a = i+(j-dd/2)
+              if not(a < 0 or a >= sig.size):
+                  k += abs( sig[int(a)] )
+          sig1 = np.insert(sig1, -1 , k )
+      
+      return sig1, dd
+  
+  def drawGraphVolume(sig1, dd) :
+      plt.plot(np.arange(0., sig1.size, 1), sig1/dd)
+      plt.show()
+  
+  def getRangeVolume(sig1, v = 0.0025) :
+      k = [np.zeros(2)]
+  
+      a = 0
+      b = False
+      for i in range(0, sig1.size) :
+          if( sig1[i]/dd < v ) :
+              if ( b ):
+                  k = np.append(k, [[a, i]], axis = 0)
+                  b = False
+          else : 
+              if ( not(b) ) :
+                  a = i
+                  b = True
+      return np.delete(k, 0, axis=0)
+  
+  
+  def exportVideo(InPath, InputFileName, OutPath, k) :
+      a = 0
+      for i in k :
+          a+=1
+          ffmpeg_tools.ffmpeg_extract_subclip(InPath+InputFileName+".mp4", i[0], i[1], targetname=OutPath+InputFileName+str(a)+"_Out.mp4")
+  ```
+  ```python
+  InputFileName = "video_14155_"
+  dsec = 2000
+  sig, sr = getSoundVolume(InputFileName, dsec)
+  ```
+  ```python
+  # 이미 Wav 파일이 존재할 시
+  InputFileName = "video_14155_"
+  dsec = 2000
+  sig, sr = getWaveVolume(InputFileName, dsec)
+  ```
+  ```python
+  drawSoundImage(sig, sr)
+  ```
+  ```python
+  sig1, dd = getSoundIntegral(sig, sr, dsec, 5)
+  ```
+  ```python
+  drawGraphVolume(sig1, dd)
+  ```
+  ```python
+  print(sig1.size)
+  plt.plot(np.arange(0., sig1.size-42700, 1), sig1[0:-42700]/dd)
+  plt.show()
+  ```
+  ```python
+  k = getRangeVolume(sig1, 0.001)
 
-### 참조
+  k *= (sig.size/sr)/sig1.size
+  print(k)
+  print("k.size = ", k.size)
+  ```
+  ```python
+  exportVideo("", InputFileName, "OutPut/", k)
+  ```
+  ```python
+  import vlc
+  import time
+  import keyboard
+  ```
+  ```python
+  InputPath = "OutPut/"
+  InputFileName = "video_14155_"
+  a = 1
+    
+  # 영상 끝까지 재생 후 종료
+  media_player = vlc.MediaPlayer()
+    
+  # Event
+  def my_call_back(event):
+      print("콜백함수호출: 종료호출")
+      global status 
+      status = 1 
+    
+  media_player.event_manager().event_attach(
+      vlc.EventType.MediaPlayerStopped, my_call_back)
+    
+  while(a<785) : 
+    
+      media_player = vlc.MediaPlayer() # 볼륨 크기 매번세팅을 위한 초기화
+      media_player.event_manager().event_attach(
+          vlc.EventType.MediaPlayerStopped, my_call_back)
+    
+      # Setting
+      media_player.set_media(
+          vlc.Media(
+              InputPath+InputFileName+str(a)+"_Out.mp4"
+          )
+      )
+      media_player.audio_set_volume(400)
+      media_player.video_set_scale(0.8)
+      media_player.play()
+      
+      # 자동 종료
+      status = 0
+      while (status == 0):
+          time.sleep(0.3)
+          if status == 1:
+              media_player.stop()
+              while True:
+                  if keyboard.is_pressed("r"):
+                      print("replay : ", a)
+                      break
+                  if keyboard.is_pressed("d"):
+                      print("delete : ", a)
+                      a += 1
+                      media_player.set_media(
+                          vlc.Media(
+                              InputPath+InputFileName+str(a)+"_Out.mp4"
+                          )
+                      )
+                      os.remove(InputPath+InputFileName+str(a-1)+"_Out.mp4")
+                      print("next : ", a)
+                      break
+                  if keyboard.is_pressed("n"):
+                      a += 1
+                      print("next : ", a)
+                      break
+                  if keyboard.is_pressed("p"):
+                      a -= 1
+                      print("prev : ", a)
+                      break
+          else:
+              pass
+  ```
+
+<br><br>
+
+## 참조
 
 - [VScode Jupyter NoteBooks 실행 방법](https://junglow9.tistory.com/10)
 - [OpenCV install](https://hello-bryan.tistory.com/124)
