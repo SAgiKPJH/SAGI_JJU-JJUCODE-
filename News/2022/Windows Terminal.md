@@ -230,7 +230,7 @@
   ```bash
   oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\quick-term.omp.json" | Invoke-Expression
   ```
-
+- ubuntu 설치 후 적용 ( microsoft 스토어 -> ubuntu 검색 -> Ubuntu 22.04.1 LTS 설치
 
 <br>
 
