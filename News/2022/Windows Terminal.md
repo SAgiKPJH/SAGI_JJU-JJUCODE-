@@ -141,7 +141,15 @@
 ## Windows Terminal 보조 기능
 
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
-- 터미널의 테마를 꾸미는데에는 다양한 
+- 터미널의 테마를 꾸미는데에는 다양한 프로그램들이 있다.
+  - Oh My Zsh : zsh 구성 을 관리하기 위한 오픈 소스 커뮤니티 기반 프레임워크, 커뮤니티가 활발한 만큼 다양한 Terminal Theme를 제공한다.
+    - [Oh My Zsh 사이트](https://ohmyz.sh/)
+    - [Oh My Zsh GitHub](https://github.com/ohmyzsh/ohmyzsh)
+    - [Oh My Zsh Themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
+  - Oh My Posh : 모든 쉘에 대한 프롬프트 테마 엔진.
+    - [Oh My Posh](https://ohmyposh.dev/)
+    - [Oh My Posh GitHub](https://github.com/JanDeDobbeleer/oh-my-posh)
+    - [Oh My Posh Themes](https://ohmyposh.dev/docs/themes)
 - Oh My Posh의 경우, 특정한 글꼴을 활용해야 한다. 예) 3270Medium NF
 
 <details> 
