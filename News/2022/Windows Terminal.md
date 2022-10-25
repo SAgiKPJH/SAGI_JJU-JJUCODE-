@@ -233,6 +233,22 @@
   oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\quick-term.omp.json" | Invoke-Expression
   ```
 - ubuntu 설치 후 적용 ( microsoft 스토어 -> ubuntu 검색 -> Ubuntu 22.04.1 LTS 설치
+  ```bash
+  sudo apt update && sudo apt upgrade -y
+  sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+  sudo chmod +x /usr/local/bin/oh-my-posh
+  mkdir ~/.poshthemes
+  wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
+  unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
+  chmod u+rw ~/.poshthemes/*.json
+  rm ~/.poshthemes/themes.zip
+  ```
+  ```bash
+  eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/jandedobbeleer.omp.json)"
+  
+  #또는 다른 테마
+  eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/quick-term.omp.json)"
+  ```
 
 <br>
 
