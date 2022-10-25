@@ -44,6 +44,7 @@
 
 <img src="https://user-images.githubusercontent.com/66783849/194593015-6a5ca30c-fd36-4cfb-8268-08251190adfd.png" width="70%">
 
+- window powershell -> 모양 -> 색 구성표
 - Windows Terminal은 각 터미널 별로 Theme를 지정할 수 있다.
 - 색, 폰트종류 및 크기, 여백크기, 투명한 배경 모두 가능하다.
 - 이들을 쉽게 관리할 수있도록 Windows Terminal에서는 json 형식으로 theme를 저장한다.
@@ -140,6 +141,7 @@
 ## Windows Terminal 보조 기능
 
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
+- 이때, 특정한 글꼴을 활용해야 한다. 예) 3270Medium NF
 
 <details> 
 <summary>▶Windows Terminal 보조 기능</summary> 
