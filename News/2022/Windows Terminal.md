@@ -15,12 +15,17 @@
 
 ## Windows Terminal 설치하기
 
+<details> 
+<summary>▶Windows Terminal 설치하기</summary> 
+
 <img src="https://user-images.githubusercontent.com/66783849/194584196-4ef1a700-44d9-4a38-84cb-b84e44bc51d1.png" width="100">
 
 - Google에 "Windows Terminal" 검색 -> [Microsoft store 사이트](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701?hl=ko-kr&gl=kr) 접속 -> 스토어 앱에서 다운로드
   <img src="https://user-images.githubusercontent.com/66783849/194582731-8ac036cf-9ef2-4733-801c-09576995b677.png" width="300">
 - 다운로드 후 애플리케이션을 실행한다.  
   <img src="https://user-images.githubusercontent.com/66783849/194583072-d0bb1d09-44d3-4d03-9378-3e4688823051.png" width="300">
+
+</details> 
 
 <br>
 
@@ -32,6 +37,10 @@
 <br>
 
 ## Windows Terminal 꾸미기
+
+<details> 
+<summary>▶Windows Terminal 꾸미기</summary> 
+
 
 <img src="https://user-images.githubusercontent.com/66783849/194593015-6a5ca30c-fd36-4cfb-8268-08251190adfd.png" width="70%">
 
@@ -124,6 +133,9 @@
 - 다음과 같이 Theme가 추가됨을 확인할 수 있다.  
 <img src="https://user-images.githubusercontent.com/66783849/194714929-64612ddf-bf23-4daf-9ff3-72a08e0ed8b4.png" width="70%">
 
+    
+</details> 
+
 <br>
 
 ## Windows Terminal 보조 기능
@@ -131,6 +143,9 @@
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
 
 <br>
+
+<details> 
+<summary>▶Windows Terminal 보조 기능</summary> 
 
 ### Nerd Font
 
@@ -200,6 +215,7 @@
   ```
   <img src="https://user-images.githubusercontent.com/66783849/194718853-7db148d9-e774-4336-8e22-7f2faa1d417a.png" >
 
+  </details> 
 <br>
 
 
