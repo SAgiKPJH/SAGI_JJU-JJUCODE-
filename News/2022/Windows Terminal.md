@@ -245,6 +245,8 @@
   chmod u+rw ~/.poshthemes/*.json
   rm ~/.poshthemes/themes.zip
   ```
+![image](https://user-images.githubusercontent.com/66783849/197803268-01c8d176-2a95-47f9-ad82-d8ad0e3f434d.png)
+![image](https://user-images.githubusercontent.com/66783849/197803341-89495eac-79a0-4c2f-9d92-03904263acbb.png)
   ```bash
   eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/jandedobbeleer.omp.json)"
   
