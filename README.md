@@ -49,6 +49,7 @@
 - [ ] AutoEncoder 활용
 - [ ] 사진 AI 구현
 - [ ] 그림 AI 구현
+- [ ] AutoHotKey 소개
 
 <br>
 
