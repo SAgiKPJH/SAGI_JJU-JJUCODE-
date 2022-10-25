@@ -207,14 +207,29 @@
   ```bash
   oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\paradox.omp.json" | Invoke-Expression
   ```
-  ```bahs
+  ```bash
   oh-my-posh init pwsh --config "D:\Sagi_JJU D\코딩 프로젝트\2022\oh-my-posh-main\themes\quick-term.omp.json" | Invoke-Expression
+  # 또는
+  oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\quick-term.omp.json" | Invoke-Expression
   ```
   <img src="https://user-images.githubusercontent.com/66783849/194718853-7db148d9-e774-4336-8e22-7f2faa1d417a.png" >
 
 </details> 
 
-<br>
+<br><br>
+
+## 테마별 적용
+
+- paradox.omp.json
+  ![image](https://user-images.githubusercontent.com/66783849/197786489-c9574dd1-fddd-4dea-9590-b7fa4a6c9009.png)
+  ```bash
+  oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\paradox.omp.json" | Invoke-Expression
+  ```
+- quick-term.omp.json
+  ![image](https://user-images.githubusercontent.com/66783849/197786930-63b7fb4e-c98c-476d-a4b8-a2e71e7329f9.png)
+  ```bash
+  oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\quick-term.omp.json" | Invoke-Expression
+  ```
 
 
 <br>
