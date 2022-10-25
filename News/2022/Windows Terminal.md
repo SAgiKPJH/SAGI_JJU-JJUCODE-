@@ -141,7 +141,8 @@
 ## Windows Terminal 보조 기능
 
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
-- 이때, 특정한 글꼴을 활용해야 한다. 예) 3270Medium NF
+- 터미널의 테마를 꾸미는데에는 다양한 
+- Oh My Posh의 경우, 특정한 글꼴을 활용해야 한다. 예) 3270Medium NF
 
 <details> 
 <summary>▶Windows Terminal 보조 기능</summary> 
