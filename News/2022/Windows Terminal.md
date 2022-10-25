@@ -133,7 +133,6 @@
 - 다음과 같이 Theme가 추가됨을 확인할 수 있다.  
 <img src="https://user-images.githubusercontent.com/66783849/194714929-64612ddf-bf23-4daf-9ff3-72a08e0ed8b4.png" width="70%">
 
-    
 </details> 
 
 <br>
@@ -141,8 +140,6 @@
 ## Windows Terminal 보조 기능
 
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
-
-<br>
 
 <details> 
 <summary>▶Windows Terminal 보조 기능</summary> 
@@ -215,7 +212,8 @@
   ```
   <img src="https://user-images.githubusercontent.com/66783849/194718853-7db148d9-e774-4336-8e22-7f2faa1d417a.png" >
 
-  </details> 
+</details> 
+
 <br>
 
 
