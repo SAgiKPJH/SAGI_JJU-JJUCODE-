@@ -1,7 +1,7 @@
 문서정보 : 2022.10.07.-09. 작성, 작성자 [@SAgiKPJH](https://github.com/SAgiKPJH)
 
 
-# Windows Terminal
+# Windows Terminal (Oh My Posh 활용)
 
 [![image](https://user-images.githubusercontent.com/66783849/194581819-164fa1df-8ff2-4855-8022-50fbc90818e9.png)](https://devblogs.microsoft.com/commandline/windows-terminal-1-0/)
 
@@ -44,6 +44,7 @@
 
 <img src="https://user-images.githubusercontent.com/66783849/194593015-6a5ca30c-fd36-4cfb-8268-08251190adfd.png" width="70%">
 
+- window powershell -> 모양 -> 색 구성표
 - Windows Terminal은 각 터미널 별로 Theme를 지정할 수 있다.
 - 색, 폰트종류 및 크기, 여백크기, 투명한 배경 모두 가능하다.
 - 이들을 쉽게 관리할 수있도록 Windows Terminal에서는 json 형식으로 theme를 저장한다.
@@ -140,6 +141,8 @@
 ## Windows Terminal 보조 기능
 
 - 터미널을 사용하는 데 있어서 다양한 시각적 효과를 얻을 수 있는 보조기능을 설치하여 활용해본다.
+- 터미널의 테마를 꾸미는데에는 다양한 
+- Oh My Posh의 경우, 특정한 글꼴을 활용해야 한다. 예) 3270Medium NF
 
 <details> 
 <summary>▶Windows Terminal 보조 기능</summary> 
@@ -231,6 +234,26 @@
   oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\quick-term.omp.json" | Invoke-Expression
   ```
 - ubuntu 설치 후 적용 ( microsoft 스토어 -> ubuntu 검색 -> Ubuntu 22.04.1 LTS 설치
+  ```bash
+  sudo apt update && sudo apt upgrade -y
+  sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+  sudo chmod +x /usr/local/bin/oh-my-posh
+  mkdir ~/.poshthemes
+  wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
+  # unzip 없을 시
+  sudo apt install unzip
+  unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
+  chmod u+rw ~/.poshthemes/*.json
+  rm ~/.poshthemes/themes.zip
+  ```
+![image](https://user-images.githubusercontent.com/66783849/197803268-01c8d176-2a95-47f9-ad82-d8ad0e3f434d.png)
+![image](https://user-images.githubusercontent.com/66783849/197803341-89495eac-79a0-4c2f-9d92-03904263acbb.png)
+  ```bash
+  eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/jandedobbeleer.omp.json)"
+  
+  #또는 다른 테마
+  eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/quick-term.omp.json)"
+  ```
 
 <br>
 
