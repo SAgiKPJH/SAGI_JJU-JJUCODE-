@@ -17,10 +17,11 @@
 
 ## 진행 프로젝트
 
-- [ ] (10/7(금)~)프로그래밍 뉴스 : Window Terminal - ubuntu 활용
+- [ ] (10/26(수)) VLLO 영상 편집해보기
+- [ ] Python 으로 AI 관련 프로젝트
 - [ ] 💤(10/06(목)부터) 잠과 전면전, 10:00~03:00 5시간동안 졸지말고 집중하여 버텨라!
   - [x] (10/9(일))10분 마다 딴짓 한개 시도 (✔채용)
-  - [ ] 5회 연속 승리( 10/09, 10/13, 10/19  )
+  - [ ] 5회 연속 승리( 10/09, 10/13, 10/19, 10/25 )
   - [ ] 20분 5회 연속 승리
   - [ ] 40분 5회 연속 승리
   - [ ] 60분 5회 연속 승리
@@ -52,6 +53,7 @@
 - [ ] 그림 AI 구현
 - [ ] AutoHotKey 소개
 - [ ] openSUSE Leap 해보기
+- [ ] 프로그래밍 뉴스 Windows Terminal 유튜브용 영상 제작
 
 <br>
 
@@ -109,6 +111,8 @@
 ## 완료한 프로젝트
 
 - [x] [⭐(09/21(수) ~ 10/19(수) )[프로젝트 1] 영상편집 도우미 (소리나는 부분만 자르는 프로그래밍) with Python](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/Project/01%20%EC%98%81%EC%83%81%ED%8E%B8%EC%A7%91%20%EB%8F%84%EC%9A%B0%EB%AF%B8%20in%20python)
+- [x] [(10/7(금)~10/9(일), 10/25(화))프로그래밍 뉴스 : Window Terminal - ubuntu 활용](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/blob/main/News/2022/Windows%20Terminal.md)
+
 
 ## 완료한 것
 - [x] (9/27 화) 검색용 아이디 따로 마련해두기
