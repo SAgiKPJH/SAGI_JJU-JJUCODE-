@@ -54,6 +54,8 @@
 - [ ] AutoHotKey 소개
 - [ ] openSUSE Leap 해보기
 - [ ] 프로그래밍 뉴스 Windows Terminal 유튜브용 영상 제작
+- [ ] Sagi-repository 리뷰
+  - [ ] Git 알아두면 좋은 내용 리뷰
 
 <br>
 
