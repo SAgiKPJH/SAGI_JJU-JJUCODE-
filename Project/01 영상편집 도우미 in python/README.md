@@ -1343,20 +1343,20 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   ```python
   drawSoundImage(sig, sr)
   ```
-  <img src="https://user-images.githubusercontent.com/66783849/196506980-248a6343-35e5-45f5-8990-df3af30abf40.png" width="250">
+- <img src="https://user-images.githubusercontent.com/66783849/196506980-248a6343-35e5-45f5-8990-df3af30abf40.png" width="250">  
   ```python
   sig1, dd = getSoundIntegral(sig, sr, dsec, 5)
   ```
   ```python
   drawGraphVolume(sig1, dd)
   ```
-  <img src="https://user-images.githubusercontent.com/66783849/196507110-d92f263e-666c-470f-b881-392ed75a3124.png" width="250">
+- <img src="https://user-images.githubusercontent.com/66783849/196507110-d92f263e-666c-470f-b881-392ed75a3124.png" width="250">  
   ```python
   print(sig1.size)
   plt.plot(np.arange(0., sig1.size-42700, 1), sig1[0:-42700]/dd)
   plt.show()
   ```
-  <img src="https://user-images.githubusercontent.com/66783849/196507189-786a6220-b1d6-4b46-af85-2c8d327ddaa9.png" width="250">
+- <img src="https://user-images.githubusercontent.com/66783849/196507189-786a6220-b1d6-4b46-af85-2c8d327ddaa9.png" width="250">  
   ```python
   k = getRangeVolume(sig1, 0.001)
 
