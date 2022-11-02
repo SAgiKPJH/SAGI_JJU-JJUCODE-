@@ -718,7 +718,7 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
 ### Python 소리 영역 획득
 
 - 소리의 범위를 구하기 위해서는, 소리 검출 영역의 시작점과 끝점을 획득할 수 있어야 한다.
-- 소리 크기의 0.0025 부분을 기준으로 영역을 검출한다.
+- 소리 크기의 0.0025 부분을 기준으로 영역을 검출한다.  
   <img src="https://user-images.githubusercontent.com/66783849/195636012-933259de-6e74-4e97-9dc3-4a6bcab98746.png" width="250">
 - 우선 0.0025 이하인 영역을 검출한다.
   ```python
@@ -1344,20 +1344,20 @@ C --5. 영상 추출 <br>및 내보내기-->D["저장된<br> 추출된 영상"] 
   drawSoundImage(sig, sr)
   ```
 - <img src="https://user-images.githubusercontent.com/66783849/196506980-248a6343-35e5-45f5-8990-df3af30abf40.png" width="250">  
-  ```python
+- ```python
   sig1, dd = getSoundIntegral(sig, sr, dsec, 5)
   ```
   ```python
   drawGraphVolume(sig1, dd)
   ```
 - <img src="https://user-images.githubusercontent.com/66783849/196507110-d92f263e-666c-470f-b881-392ed75a3124.png" width="250">  
-  ```python
+- ```python
   print(sig1.size)
   plt.plot(np.arange(0., sig1.size-42700, 1), sig1[0:-42700]/dd)
   plt.show()
   ```
 - <img src="https://user-images.githubusercontent.com/66783849/196507189-786a6220-b1d6-4b46-af85-2c8d327ddaa9.png" width="250">  
-  ```python
+- ```python
   k = getRangeVolume(sig1, 0.001)
 
   k *= (sig.size/sr)/sig1.size
