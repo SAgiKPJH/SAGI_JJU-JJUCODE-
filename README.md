@@ -1,6 +1,6 @@
 # 방송공지 (임시)🐊
 
-- 일시 : 매주 화, 목 22:00~03:00 (당분간 체력 기르기 위해 2시까지)
+- 일시 : 매주 화, 목 22:00~03:00
   - 코딩이 재미없는 순간(막히거나 어렵거나)하면 저도 피곤해지네요 ㅎㅎ
   - 잠을 극복하기 위해 10분마다 딴짓합니다 ㅎㅎ
 - 방송한 5시간 내용은 3분으로 요약하여 유튜브에 올립니다.
@@ -10,14 +10,13 @@
   - [사기쭈 깃허브](https://github.com/SAgiKPJH)
   - [사기쭈(쭈코드) 저장소](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-)
   - [트위치 주소](https://www.twitch.tv/juhyung1021/about)
-  - [유튜브 주소]()
+  - [유튜브 주소](https://www.youtube.com/channel/UCgjLsHt7hCXShJJq7KVbD-Q)
 - 위 내용은 상황에 따라 바뀔 수 있지만 대체로 위와 같이 진행합니다.
 
 <br>
 
 ## 진행 프로젝트
 
-- [ ] (10/26(수)) VLLO 영상 편집해보기
 - [ ] Python 으로 AI 관련 프로젝트
 - [ ] 💤(10/06(목)부터) 잠과 전면전, 10:00~03:00 5시간동안 졸지말고 집중하여 버텨라!
   - [x] (10/9(일))10분 마다 딴짓 한개 시도 (✔채용)
@@ -69,12 +68,10 @@
   - [x] (9/20 화) 링크 공유 (깃허브)
   - [ ] 프로필 베너 제작(직접 제작) 및 바꾸기
 - [ ] 유튜브 채널 만들기
+  - [x] 유튜브 아이디 만들기
   - [ ] 유튜브 프로필 사진 변경
   - [ ] 유튜브 채널 꾸미기
 - [ ] (11/19 토) 60일 까지 아이디 정해서 바꾸기 (후보 : 사기쭈,...)
-- [ ] 영상 편집 도우미를 제작하여 유튜브용 영상 추출 및 업로드 할 것
-  - [ ] 영상 편집 도우미로 영상 추출
-  - [ ] 유튜브 업로드 
 - [ ] 정기구독
   - [ ] 정기구독이란?
   - [ ] 정기구독 이모티콘?
@@ -107,13 +104,18 @@
 - 2022년 10월 09일 첫 팔로우 [배그하는시리(jw00112q)]
 - 2022년 10월 11일 2번째 팔로우 [초보자의죽음(traitortree)]
 - 2022년 10월 25일 3번째 팔로우 [playhasnolimits_]
+- 2022년 10월 3일 첫번째 [유튜브 영상 업로드](https://www.youtube.com/watch?v=SuNGFuhZz70)
 
 <br>
 
 ## 완료한 프로젝트
 
-- [x] [⭐(09/21(수) ~ 10/19(수) )[프로젝트 1] 영상편집 도우미 (소리나는 부분만 자르는 프로그래밍) with Python](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/Project/01%20%EC%98%81%EC%83%81%ED%8E%B8%EC%A7%91%20%EB%8F%84%EC%9A%B0%EB%AF%B8%20in%20python)
+- [x] 영상 편집 도우미를 제작하여 유튜브용 영상 추출 및 업로드 할 것
+  - [x] 영상 편집 도우미로 영상 추출
+  - [x] [유튜브 업로드](https://www.youtube.com/watch?v=SuNGFuhZz70)
+- [x] (10/26(수)) VLLO 영상 편집해보기
 - [x] [(10/7(금)~10/9(일), 10/25(화))프로그래밍 뉴스 : Window Terminal - ubuntu 활용](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/blob/main/News/2022/Windows%20Terminal.md)
+- [x] [⭐(09/21(수) ~ 10/19(수) )[프로젝트 1] 영상편집 도우미 (소리나는 부분만 자르는 프로그래밍) with Python](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/tree/main/Project/01%20%EC%98%81%EC%83%81%ED%8E%B8%EC%A7%91%20%EB%8F%84%EC%9A%B0%EB%AF%B8%20in%20python)
 
 
 ## 완료한 것
