@@ -16,6 +16,16 @@
 
 - [x] 개요
 - [x] 초급 과정
+- [x] 전문과 과정
+- [ ] Keras ML
+  - [ ] 기본 이미지 분류
+  - [ ] 기본 텍스트 분류
+  - [ ] TF Hub 텍스트 분류
+  - [ ] 회귀
+  - [ ] 과적합 및 과소적합
+  - [ ] 저장 및 로드
+  - [ ] Keras Tuner로 초매개변수 미세조정
+  - [ ] keras.io에 관한 추가예
 
 <br>
 
@@ -122,10 +132,131 @@
   # 5가지 이미지에 대한 확률분포 확인
   probability_model(x_test[:5])
   ```
+- 요약하면 다음과 같다.
+  - 학습 데이터 다운
+  - 모델 생성
+  - optimizer, loss유형 정의, 모델평가(metrics)
+  - 모델 학습
+  - 모델 결과 (가능하면 확률분포)
 
 <br><br><br>
 
-#
+# 전문가 과정
+
+- 초급 과정에서 조금더 세부적으로 제어할 수 있다.
+  ```bash
+  pip install tensorflow
+  ```
+  ```python
+  # import
+  import tensorflow as tf
+  print("TensorFlow version:", tf.__version__)
+  
+  from tensorflow.keras.layers import Dense, Flatten, Conv2D
+  from tensorflow.keras import Model
+
+  # 모델 다운
+  mnist = tf.keras.datasets.mnist
+  
+  # array([[~~]])
+  (x_train, y_train), (x_test, y_test) = mnist.load_data()
+  x_train, x_test = x_train / 255.0, x_test / 255.0
+  
+  # 채널 추가 array([ [[~~]] ], dtype=float32)
+  x_train = x_train[..., tf.newaxis].astype("float32")
+  x_test = x_test[..., tf.newaxis].astype("float32")
+
+  # 데이터 섞기 + 묶음(batch)
+  # 섞고 묶고
+  train_ds = tf.data.Dataset.from_tensor_slices(
+      (x_train, y_train)).shuffle(10000).batch(32)
+  # 묶기만 하고
+  test_ds = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
+  
+  # 모델 생성
+  class MyModel(Model):
+    def __init__(self):
+      super(MyModel, self).__init__()
+      self.conv1 = Conv2D(32, 3, activation='relu')
+      self.flatten = Flatten()
+      self.d1 = Dense(128, activation='relu')
+      self.d2 = Dense(10)
+    # 모델 사용할 시
+    def call(self, x):
+      x = self.conv1(x)
+      x = self.flatten(x)
+      x = self.d1(x)
+      return self.d2(x)
+  
+  # Create an instance of the model
+  model = MyModel()
+
+  # optimizer, loss유형 정의
+  loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+  optimizer = tf.keras.optimizers.Adam()
+  
+  # 모델평가(metrics) 정의
+  train_loss = tf.keras.metrics.Mean(name='train_loss')
+  train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy')
+  
+  test_loss = tf.keras.metrics.Mean(name='test_loss')
+  test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
+
+  # 모델 훈련 함수 생성
+  # 배치수만큼(?) [이미지 모델 넣어보기 > loss 획득] > optimizer(최적화) > loss값 저장, 평가값 저장 
+  @tf.function
+  def train_step(images, labels):
+    with tf.GradientTape() as tape:
+      # training=True is only needed if there are layers with different
+      # behavior during training versus inference (e.g. Dropout).
+      predictions = model(images, training=True)
+      loss = loss_object(labels, predictions)
+    gradients = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+    train_loss(loss)
+    train_accuracy(labels, predictions)
+  
+  # 모델 테스트 함수 생성
+  # 모델 이미지 투하 > 로스 획득 > 로스 저장, 평가값 저장
+  @tf.function
+  def test_step(images, labels):
+    # training=False is only needed if there are layers with different
+    # behavior during training versus inference (e.g. Dropout).
+    predictions = model(images, training=False)
+    t_loss = loss_object(labels, predictions)
+  
+    test_loss(t_loss)
+    test_accuracy(labels, predictions)
+
+  # 학습 및 테스트
+  EPOCHS = 5
+  
+  # 총 5회 반복
+  # 각종 정보 초기화 > 이미지 수만큼 (6만/32번) 학습 돌리기 > 테스트 1만/32번 돌리기 > 결과값 보여주기
+  for epoch in range(EPOCHS):
+    # Reset the metrics at the start of the next epoch
+    train_loss.reset_states()
+    train_accuracy.reset_states()
+    test_loss.reset_states()
+    test_accuracy.reset_states()
+  
+    for images, labels in train_ds:
+      train_step(images, labels)
+  
+    for test_images, test_labels in test_ds:
+      test_step(test_images, test_labels)
+  
+    print(
+      f'Epoch {epoch + 1}, '
+      f'Loss: {train_loss.result()}, '
+      f'Accuracy: {train_accuracy.result() * 100}, '
+      f'Test Loss: {test_loss.result()}, '
+      f'Test Accuracy: {test_accuracy.result() * 100}'
+    )
+  ```
+
+<br><br><br>
 
 #
 
