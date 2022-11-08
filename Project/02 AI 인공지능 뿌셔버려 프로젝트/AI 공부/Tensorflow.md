@@ -15,10 +15,10 @@
 ## 목표
 
 - [x] 개요
-- [x] 초급 과정
-- [x] 전문과 과정
+- [x] [초급 과정](https://www.tensorflow.org/tutorials/quickstart/beginner?hl=ko)
+- [x] [전문과 과정](https://www.tensorflow.org/tutorials/quickstart/advanced?hl=ko)
 - [ ] Keras ML
-  - [ ] 기본 이미지 분류
+  - [x] 기본 이미지 분류
   - [ ] 기본 텍스트 분류
   - [ ] TF Hub 텍스트 분류
   - [ ] 회귀
@@ -26,6 +26,12 @@
   - [ ] 저장 및 로드
   - [ ] Keras Tuner로 초매개변수 미세조정
   - [ ] keras.io에 관한 추가예
+
+<br>
+
+### 참고 사이트
+
+- [TensorFlow Colab](https://colab.research.google.com/drive/17LOf94j3qGqdEiRWh-lGQRhmerkQ100L?usp=sharing)
 
 <br>
 
@@ -258,6 +264,179 @@
 
 <br><br><br>
 
-#
+# Keras ML
+
+## 3.1 기본 이미지 분류
+
+- 손글씨와 같은 28*28 > 128 > 10 모델로, 패션 용품을 분류하는 모델을 생성한다.
+- 28*28의 흑백 이미지 7만장을 갖고 있다.
+- 모델 키워드에 대한 정보는 다음과 같다.
+  레이블 | 클래스
+  -- | --
+  0 | T-shirt/top
+  1 | Trouser
+  2 | Pullover
+  3 | Dress
+  4 | Coat
+  5 | Sandal
+  6 | Shirt
+  7 | Sneaker
+  8 | Bag
+  9 | Ankle boot
+- 이미지는 다음과 같다.  
+  <img src="https://user-images.githubusercontent.com/66783849/200587223-ebea76a9-c20b-49b7-8e3f-19fb26008b63.png" width="150">
+- 기본 코드는 다음과 같다.
+  ```python
+  # import
+  import tensorflow as tf
+  
+  import numpy as np
+  import matplotlib.pyplot as plt
+  
+  print(tf.__version__)
+  
+  # 모델 다운 (패션:키워드 모델 다운), train 6만개, test 1만개
+  fashion_mnist = tf.keras.datasets.fashion_mnist
+  (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+  
+  # 학습에 대한 배열 정의
+  class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+                 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+  
+  # 이미지 0 ~ 255 -> 0 ~ 1
+  train_images = train_images / 255.0
+  test_images = test_images / 255.0
+  
+  # 각 이미지 보기
+  plt.figure(figsize=(10,10))
+  for i in range(25):
+      plt.subplot(5,5,i+1)
+      plt.xticks([])
+      plt.yticks([])
+      plt.grid(False)
+      plt.imshow(train_images[i], cmap=plt.cm.binary)
+      plt.xlabel(class_names[train_labels[i]])
+  plt.show()
+  
+  # 모델 설정
+  model = tf.keras.Sequential([
+      tf.keras.layers.Flatten(input_shape=(28, 28)),
+      tf.keras.layers.Dense(128, activation='relu'),
+      tf.keras.layers.Dense(10)
+  ])
+  model.compile(optimizer='adam',
+                loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                metrics=['accuracy'])
+  
+  # 모델 학습
+  model.fit(train_images, train_labels, epochs=10)
+  
+  # 학습 결과
+  test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
+  print('\nTest accuracy:', test_acc)
+  ```
+- 모델 변형 및 예측
+  ```python
+  # 모델 변형 및 예측
+  probability_model = tf.keras.Sequential([model, 
+                                           tf.keras.layers.Softmax()])
+  
+  # 1회 학습
+  predictions = probability_model.predict(test_images)
+  
+  # 예측값 확인
+  predictions[0]
+  
+  # 예측값 클래스 추출
+  np.argmax(predictions[0])
+  
+  # 레이블 값과 비교
+  test_labels[0]
+  ```
+- 결과 이미지화
+  ```python
+  # 결과 이미지화
+  
+  def plot_image(i, predictions_array, true_label, img):
+    true_label, img = true_label[i], img[i]
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+  
+    plt.imshow(img, cmap=plt.cm.binary)
+  
+    predicted_label = np.argmax(predictions_array)
+    if predicted_label == true_label:
+      color = 'blue'
+    else:
+      color = 'red'
+  
+    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                                  100*np.max(predictions_array),
+                                  class_names[true_label]),
+                                  color=color)
+  
+  def plot_value_array(i, predictions_array, true_label):
+    true_label = true_label[i]
+    plt.grid(False)
+    plt.xticks(range(10))
+    plt.yticks([])
+    thisplot = plt.bar(range(10), predictions_array, color="#777777")
+    plt.ylim([0, 1])
+    predicted_label = np.argmax(predictions_array)
+  
+    thisplot[predicted_label].set_color('red')
+    thisplot[true_label].set_color('blue')
+  
+  # Plot the first X test images, their predicted labels, and the true labels.
+  # Color correct predictions in blue and incorrect predictions in red.
+  num_rows = 5
+  num_cols = 3
+  num_images = num_rows*num_cols
+  plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+  for i in range(num_images):
+    plt.subplot(num_rows, 2*num_cols, 2*i+1)
+    plot_image(i, predictions[i], test_labels, test_images)
+    plt.subplot(num_rows, 2*num_cols, 2*i+2)
+    plot_value_array(i, predictions[i], test_labels)
+  plt.tight_layout()
+  plt.show()
+  ```
+- 이미지 직접 넣어보기
+  ```python
+  # 모델 직접 적용 튜토리얼
+  # 이미지 부여
+  img = test_images[1]
+  print(img.shape)
+  
+  # 배치 파일 부여 이미지
+  img = (np.expand_dims(img,0))
+  print(img.shape)
+  
+  # 이미지의 예측값 획득
+  predictions_single = probability_model.predict(img)
+  print(predictions_single)
+  
+  # 이미지의 예측값 시각화
+  plot_value_array(1, predictions_single[0], test_labels)
+  _ = plt.xticks(range(10), class_names, rotation=45)
+  plt.show()
+  
+  # 이미지의 결과값
+  print("Result : " + str(np.argmax(predictions_single[0])))
+  ```
+- 다음과 같은 결과 이미지를 획득할 수 있다.  
+  <img src="https://user-images.githubusercontent.com/66783849/200592486-21cdf52e-0490-4148-a956-a5d021ef4b70.png" width="250">
+
+<br><br>
+
+##
+
+<br><br>
+
+##
+
+<br><br><br>
+
 
 #
