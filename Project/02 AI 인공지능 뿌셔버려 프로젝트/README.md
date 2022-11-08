@@ -20,7 +20,7 @@
 - [ ] 기초 공부
   - [ ] 뉴럴
 - [ ] 도구 공부
-  - [ ] TensorFlow
+  - [ ] [TensorFlow](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/blob/main/Project/02%20AI%20%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5%20%EB%BF%8C%EC%85%94%EB%B2%84%EB%A0%A4%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/AI%20%EA%B3%B5%EB%B6%80/Tensorflow.md)
   - [ ] Hands-On Machine Learning
     - [ ] 1부 : 알고리즘
     - [ ] 2부 : 신경망 활용
