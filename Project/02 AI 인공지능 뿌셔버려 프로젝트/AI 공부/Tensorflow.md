@@ -18,8 +18,8 @@
 - [x] [초급 과정](https://www.tensorflow.org/tutorials/quickstart/beginner?hl=ko)
 - [x] [전문과 과정](https://www.tensorflow.org/tutorials/quickstart/advanced?hl=ko)
 - [ ] Keras ML
-  - [x] 기본 이미지 분류
-  - [ ] 기본 텍스트 분류
+  - [x] [기본 이미지 분류](https://www.tensorflow.org/tutorials/keras/classification?hl=ko)
+  - [ ] [기본 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification?hl=ko)
   - [ ] TF Hub 텍스트 분류
   - [ ] 회귀
   - [ ] 과적합 및 과소적합
@@ -300,8 +300,7 @@
   (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
   
   # 학습에 대한 배열 정의
-  class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
-                 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+  class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
   
   # 이미지 0 ~ 255 -> 0 ~ 1
   train_images = train_images / 255.0
@@ -338,8 +337,7 @@
 - 모델 변형 및 예측
   ```python
   # 모델 변형 및 예측
-  probability_model = tf.keras.Sequential([model, 
-                                           tf.keras.layers.Softmax()])
+  probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
   
   # 1회 학습
   predictions = probability_model.predict(test_images)
@@ -430,7 +428,21 @@
 
 <br><br>
 
-##
+## 3.2 기본 텍스트 분류
+
+ 인터넷 영화 데이터베이스(Internet Movie Database)에서 수집한 50,000개의 영화 리뷰 텍스트를 담은 IMDB 데이터셋을 사용하여, 영화 리뷰(review) 텍스트를 긍정(positive) 또는 부정(negative)으로 분류해본다.  
+- 기본 코드는 다음과 같다.
+```python
+import tensorflow as tf
+from tensorflow import keras
+import numpy as np
+print(tf.__version__)
+
+imdb = keras.datasets.imdb
+(train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=10000)
+# 훈련 데이터에서 가장 많이 등장하는 상위 10,000개의 단어를 선택
+# 학습용 25,000, 훈련용 25,000
+```
 
 <br><br>
 
