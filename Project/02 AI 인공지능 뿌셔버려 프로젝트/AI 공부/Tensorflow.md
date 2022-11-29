@@ -19,13 +19,14 @@
 - [x] [전문과 과정](https://www.tensorflow.org/tutorials/quickstart/advanced?hl=ko)
 - [ ] Keras ML
   - [x] [기본 이미지 분류](https://www.tensorflow.org/tutorials/keras/classification?hl=ko)
-  - [ ] [기본 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification?hl=ko)
+  - [x] [기본 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification?hl=ko)
   - [ ] TF Hub 텍스트 분류
   - [ ] 회귀
   - [ ] 과적합 및 과소적합
   - [ ] 저장 및 로드
   - [ ] Keras Tuner로 초매개변수 미세조정
   - [ ] keras.io에 관한 추가예
+- [ ] [고수준 Keras](https://developers.google.com/machine-learning/guides/text-classification/?hl=ko)
 
 <br>
 
@@ -430,8 +431,11 @@
 
 ## 3.2 기본 텍스트 분류
 
+### IMDB 데이터 다운 및 준비
+
  인터넷 영화 데이터베이스(Internet Movie Database)에서 수집한 50,000개의 영화 리뷰 텍스트를 담은 IMDB 데이터셋을 사용하여, 영화 리뷰(review) 텍스트를 긍정(positive) 또는 부정(negative)으로 분류해본다.  
-- 기본 코드는 다음과 같다.
+ 25,000개는 Test용, 나머지 25,000개는 학습용으로 활용한다.  
+ 기본 코드는 다음과 같다.
 ```python
 import tensorflow as tf
 from tensorflow import keras
@@ -440,9 +444,208 @@ print(tf.__version__)
 
 imdb = keras.datasets.imdb
 (train_data, train_labels), (test_data, test_labels) = imdb.load_data(num_words=10000)
+
+# 데이터 탐색
+print("훈련 샘플: {}, 레이블: {}".format(len(train_data), len(train_labels)))
 # 훈련 데이터에서 가장 많이 등장하는 상위 10,000개의 단어를 선택
-# 학습용 25,000, 훈련용 25,000
+# 훈련 샘플: 25000, 레이블: 25000
 ```
+데이터 내부는 모든 단어마다 정수로 변환되어 구분되어 있다.
+```python
+# 데이터 탐색
+print(train_data[0])
+print("첫 번쩨 데이터 단어 수 : " + str(len(train_data[0])) )
+print("두 번쩨 데이터 단어 수 : " + str(len(train_data[1])) )
+# [1, 14, 22, 16, 43, ..., 5345, 19, 178, 32]
+# 첫 번쩨 데이터 단어 수 : 218
+# 두 번쩨 데이터 단어 수 : 189
+```
+
+<br>
+
+### 역변환 (숫자 -> Text)
+
+훈련데이터 내의 단어들을 정수로 변환되어 있다. 이를 다시 Text로 역변환한다.  
+```python
+# 단어와 정수 인덱스를 매핑한 딕셔너리
+word_index = imdb.get_word_index()
+
+# 처음 몇 개 인덱스는 사전에 정의되어 있습니다
+word_index = {k:(v+3) for k,v in word_index.items()}
+word_index["<PAD>"] = 0
+word_index["<START>"] = 1
+word_index["<UNK>"] = 2  # unknown
+word_index["<UNUSED>"] = 3
+
+reverse_word_index = dict([(value, key) for (key, value) in word_index.items()])
+
+def decode_review(text):
+    return ' '.join([reverse_word_index.get(i, '?') for i in text])
+
+# 결과 출력
+decode_review(train_data[0])
+```
+
+<br>
+
+### 데이터 가공
+
+TensorFlow로 학습시키기 위해 데이터를 가공한다.  
+- 방법 1. 원-핫 인코딩(one-hot encoding), 정수 배열을 0과 1로 이루어진 벡터로 변환. 하지만 메모리를 많이 사용한다.
+  - 예를 들어 배열 [3, 5]을 인덱스 3과 5만 1이고 나머지는 모두 0인 10,000차원 벡터로 변환. 이 방법은 num_words * num_reviews 크기의 행렬이 필요하기 때문에 메모리를 많이 사용합니다.
+- 방법 2. 정수 배열의 길이가 모두 같도록 패딩(padding)
+  - TrainData, TestData에 직접 Padding을 진행한다.
+  ```python
+  train_data = keras.preprocessing.sequence.pad_sequences(train_data,
+                                                          value=word_index["<PAD>"],
+                                                          padding='post',
+                                                          maxlen=256)
+  
+  test_data = keras.preprocessing.sequence.pad_sequences(test_data,
+                                                         value=word_index["<PAD>"],
+                                                         padding='post',
+                                                         maxlen=256)
+  print("첫 번쩨 데이터 길이 : " + str(len(train_data[0])) )
+  print("두 번쩨 데이터 길이 : " + str(len(train_data[1])) )
+  print(train_data[0])
+
+  ## 첫 번쩨 데이터 길이 : 256
+  ## 두 번쩨 데이터 길이 : 256
+  ## [1 41 ... 0 0 0 0 0]
+  ```
+
+<br>
+
+### 모델 구성
+
+신경망은 층(layer)을 쌓아서 만듭니다.
+1. 모델에서 얼마나 많은 층을 사용할 것인가?
+2. 각 층에서 얼마나 많은 은닉 유닛(hidden unit)을 사용할 것인가?
+3. 입력 데이터는 단어 인덱스의 배열입니다.
+4. 예측할 레이블은 0 또는 1입니다.
+
+```python
+# 입력 크기는 영화 리뷰 데이터셋에 적용된 어휘 사전의 크기입니다(10,000개의 단어)
+vocab_size = 10000
+
+model = keras.Sequential()
+model.add(keras.layers.Embedding(vocab_size, 16, input_shape=(None,)))
+model.add(keras.layers.GlobalAveragePooling1D())
+# GlobalAveragePooling1D : 길이가 다른 입력을 다루는 가장 간단한 방법
+#  sequence 차원에 대해 평균을 계산하여 각 샘플에 대해 고정된 길이의 출력 벡터를 반환
+model.add(keras.layers.Dense(16, activation='relu'))
+model.add(keras.layers.Dense(1, activation='sigmoid'))
+
+model.summary()
+
+## Model: "sequential"
+## ___________________________________
+##  Layer (type)                Output Shape              Param #   
+## ===================================
+##  embedding (Embedding)       (None, None, 16)          160000    
+##
+##  global_average_pooling1d (G  (None, 16)               0  
+##  lobalAveragePooling1D)               
+##
+##  dense (Dense)               (None, 16)                272       
+##
+##  dense_1 (Dense)             (None, 1)                 17        
+##
+## ==================================
+## Total params: 160,289
+## Trainable params: 160,289
+## Non-trainable params: 0
+## ___________________________________
+```
+
+<br>
+
+### 손실 함수와 옵티마이저
+
+손실함수와 최적화를 설정한다.  
+이후 원본 훈련 데이터에서 10,000개의 샘플을 떼어내어 검증 세트(validation set)를 만든다.  
+Test세트는 최종 결과를 추출할 때 활용하고, Train에서는 최대한 Test 데이터 없이 학습해야 한다.  
+최종적으로 40회의 학습을 진행한다.
+```python
+## 손실함수와 옵티마이저
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+## 검증세트
+x_val = train_data[:10000]
+partial_x_train = train_data[10000:]
+
+y_val = train_labels[:10000]
+partial_y_train = train_labels[10000:]
+
+## 40번 학습
+history = model.fit(partial_x_train,
+                    partial_y_train,
+                    epochs=40,
+                    batch_size=512,
+                    validation_data=(x_val, y_val),
+                    verbose=1)
+```
+
+<br>
+
+### 모델 평가
+
+2개의 데이터에 대해 손실을 출력한다.
+```python
+results = model.evaluate(test_data,  test_labels, verbose=2)
+
+print(results)
+## 782/782 - 1s - loss: 0.3335 - accuracy: 0.8722
+## [0.3335219919681549, 0.8722400069236755]
+## 0.33 손실, 87%의 정확도 달성
+```
+  
+`model.fit()`은 `History` 객체로 구성되어 있으므로, 딕셔너리도 들어가 있다.
+
+```python
+history_dict = history.history
+history_dict.keys()
+
+## dict_keys(['loss', 'accuracy', 'val_loss', 'val_accuracy'])
+```
+
+```python
+import matplotlib.pyplot as plt
+
+acc = history_dict['accuracy']
+val_acc = history_dict['val_accuracy']
+loss = history_dict['loss']
+val_loss = history_dict['val_loss']
+
+epochs = range(1, len(acc) + 1)
+
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
+```
+  <img src="https://user-images.githubusercontent.com/66783849/204560892-8aca1289-b50e-4b09-96b3-2b64721c2d7b.png">
+
+```python
+plt.clf()   # 그림을 초기화합니다
+
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
+plt.title('Training and validation accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy')
+plt.legend()
+
+plt.show()
+```
+<img src="https://user-images.githubusercontent.com/66783849/204561434-e8b68031-6d76-44a9-afb5-7e79deaf894f.png">
+
 
 <br><br>
 
