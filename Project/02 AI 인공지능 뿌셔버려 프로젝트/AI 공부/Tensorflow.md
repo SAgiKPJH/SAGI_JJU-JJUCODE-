@@ -20,7 +20,7 @@
 - [ ] Keras ML
   - [x] [기본 이미지 분류](https://www.tensorflow.org/tutorials/keras/classification?hl=ko) - View Iamge
   - [x] [기본 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification?hl=ko) - history, 데이터 가공(길이맞추기)
-  - [ ] TF Hub 텍스트 분류
+  - [ ] [TF Hub 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification_with_hub?hl=ko) - FT Hub, 사전 훈련 임베딩 모델
   - [ ] 회귀
   - [ ] 과적합 및 과소적합
   - [ ] 저장 및 로드
@@ -649,7 +649,60 @@ plt.show()
 
 <br><br>
 
-##
+## 3.3 TF Hub를 사용한 텍스트 분류
+ TensorFlow Hub 및 Keras를 사용한 전이 학습의 기본적인 응용을 활용한다.  
+3.2의 텍스트 분류와 동일한 내용이다.  
+
+<br>
+
+### 기본 세팅 및 모델 다운로드
+
+기본적으로 필요한 TF Hub, TF database를 설치한다.
+```bash
+pip install tensorflow-hub
+pip install tensorflow-datasets
+```
+이후 Improt 및 버전을 확인하고, IMDB 데이터셋을 다운받는다.  
+```python
+import os
+import numpy as np
+
+import tensorflow as tf
+import tensorflow_hub as hub
+import tensorflow_datasets as tfds
+
+print("Version: ", tf.__version__)
+print("Eager mode: ", tf.executing_eagerly())
+print("Hub version: ", hub.__version__)
+print("GPU is", "available" if tf.config.list_physical_devices("GPU") else "NOT AVAILABLE")
+
+# IMDB 데이터셋 다운로드, 60% 40% => 15,000, 10,000 데이터로 나눈다.
+train_data, validation_data, test_data = tfds.load(
+    name="imdb_reviews", 
+    split=('train[:60%]', 'train[60%:]', 'test'),
+    as_supervised=True)
+print("훈련 샘플: {}, 레이블: {}, test: {}".format(len(train_data), len(validation_data), len(test_data)))
+
+# Version:  2.9.2
+# Eager mode:  True
+# Hub version:  0.12.0
+# GPU is available
+# /Downloading.../
+# 훈련 샘플: 15000, 레이블: 10000, test: 25000
+```
+  
+데이터는 다음과 같이 이루어져 있다.  
+
+```python
+```
+
+<br><br>
+
+## 3.4
+
+<br><br>
+
+## 3.5
 
 <br><br><br>
 
