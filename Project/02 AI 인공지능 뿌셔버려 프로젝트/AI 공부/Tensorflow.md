@@ -15,11 +15,11 @@
 ## 목표
 
 - [x] 개요
-- [x] [초급 과정](https://www.tensorflow.org/tutorials/quickstart/beginner?hl=ko)
-- [x] [전문과 과정](https://www.tensorflow.org/tutorials/quickstart/advanced?hl=ko)
+- [x] [초급 과정](https://www.tensorflow.org/tutorials/quickstart/beginner?hl=ko) - model 구축
+- [x] [전문과 과정](https://www.tensorflow.org/tutorials/quickstart/advanced?hl=ko) - model 세부 구축
 - [ ] Keras ML
-  - [x] [기본 이미지 분류](https://www.tensorflow.org/tutorials/keras/classification?hl=ko)
-  - [x] [기본 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification?hl=ko)
+  - [x] [기본 이미지 분류](https://www.tensorflow.org/tutorials/keras/classification?hl=ko) - View Iamge
+  - [x] [기본 텍스트 분류](https://www.tensorflow.org/tutorials/keras/text_classification?hl=ko) - history, 데이터 가공(길이맞추기)
   - [ ] TF Hub 텍스트 분류
   - [ ] 회귀
   - [ ] 과적합 및 과소적합
