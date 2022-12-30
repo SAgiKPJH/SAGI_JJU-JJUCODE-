@@ -4,7 +4,6 @@
 
 >>>
 ### 예고
-
 - GPT Chat으로 수능 국어문제 풀 수 있을까?
 - GPT Chat으로 연예계 질문 가능?
 - GPT Chat은 만화를 알까?
@@ -14,49 +13,81 @@
 
 # GPT Chat 어디까지 가능하니?
 
+- 검색을 넘어 질문에 답을 해주는 최신형 인공지능 Chat
 - 세상을 깜짝놀라게 만든 GPT Chat 어디까지 가능할까?
+
+<br>
 
 ## GPT Chat이란?
 
-## GPT Chat 테스트
+<img src="https://user-images.githubusercontent.com/66783849/210074073-c741bb55-d99f-4dec-9563-80f49adef45e.png" width="250">
 
+> GPT Chat :  저는 OpenAI에서 개발한 언어 모델인 Assistant입니다. 저는 인간이 쓴 텍스트를 읽고 이해할 수 있게 교육되었습니다
+
+- ChatGPT는 OpenAI가 개발한 프로토타입 대화형 인공지능 챗봇이다.
+- GPT-3.5를 기반으로 만들어졌으며, 지도학습과 강화학습을 모두 사용.
+- ChatGPT는 Generative Pre-trained Transformer(GPT)와 Chat의 합성어
+- ChatGPT는 2022년 11월 프로토타입으로 시작
+
+<br>
+
+## OpenAI?
+
+<img src="https://camo.githubusercontent.com/89604822636c0c284327fe67d50d8da17205c5a43556305c041b56e6727d2738/68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f7468756d622f342f34642f4f70656e41495f4c6f676f2e7376672f32323070782d4f70656e41495f4c6f676f2e7376672e706e67" width="350">
+
+- 인류에게 이익을 주는 것을 목표로 하는 인공지능 연구소
+- 비영리 단체 OpenAI Inc로 구성
+- 2015년 12월 11일 창립
+
+## GPT Chat 테스트
 
 ### 언어 테스트
 - 많은 언어 알아들을 수 있는지
+  - [x] 영어
+  - [x] 한국어
+  - [x] 독일어
+  - [x] 일본어
+  - [x] 아랍어
+  - [x] 웨일스어
 - 번역이 가능한지
+  - [x] 영어 -> 한국
+  - [x] 한국 -> 영어
+  - [x] 한국 -> 일본어
 - 속뜻을 알아챌 수 있는지
+  - 모르는 듯...
+
 
 ### IQ 테스트
 - 간단한 IQ 테스트(글)
-
-### 추리 테스트
+  - 머리는 좋지 않다.
+  - 머리는 그렇게 좋지 않다.
 
 ### 코딩 테스트
-- c언어
-- c++
-- c++2
-- c#
-- python
-- html
-- php
-- ruby
-- java
-- java script
-- arduino
-- raspberrypi
-- a
-- b
-- go
-- j
-- CUDA
-- GAN
+- [x] c언어
+- [x] c++
+- c++ 2 [Cpp만 된다...]
+- [x] c#
+- [x] python
+- [x] html
+- [x] php
+- [x] ruby
+- [x] java
+- [x] java script
+- [x] arduino
+- [x] raspberrypi
+- [x] a
+- [x] b
+- [x] go
+- [x] j
+- [x] 어셈블리언어
+- [x] CUDA
+- [x] GAN
 
 ### 코딩 어디까지 되니
-- devexpress wpf
-- mvvm 구조
-- ddd 구조
-- CUDA 인공지능 노드
-- 개인적인 과제 제시
+- [x] devexpress wpf
+- [x] mvvm 구조
+- [x] ddd 구조
+- [x] CUDA 인공지능 노드
 
 ### 문학
 
