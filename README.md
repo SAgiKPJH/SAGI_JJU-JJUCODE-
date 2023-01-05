@@ -81,7 +81,7 @@
 
 ## 완료한 프로젝트
 
-- [x] [⭐(12/30(금)~12/31(토)) GPT Chat 어디까지 가능하니?]()
+- [x] [⭐(12/30(금)~12/31(토)) GPT Chat 어디까지 가능하니?](https://github.com/SAgiKPJH/SAGI_JJU-JJUCODE-/blob/main/News/2022/GPT%20Chat%20%EC%96%B4%EB%94%94%EA%B9%8C%EC%A7%80%20%EA%B0%80%EB%8A%A5%ED%95%98%EB%8B%88.md)
 - [x] 영상 편집 도우미를 제작하여 유튜브용 영상 추출 및 업로드 할 것
   - [x] 영상 편집 도우미로 영상 추출
   - [x] [유튜브 업로드](https://www.youtube.com/watch?v=SuNGFuhZz70)
